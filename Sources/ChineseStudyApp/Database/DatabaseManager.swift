@@ -116,7 +116,7 @@ public final class DatabaseManager: @unchecked Sendable {
 
     // MARK: - Characters Queries
 
-    public func fetchAllCharacters() -> [Character] {
+    public func fetchAllCharacters() -> [HanziCharacter] {
         lock.lock()
         defer { lock.unlock() }
         guard let ctx = context else { return [] }
@@ -130,11 +130,17 @@ public final class DatabaseManager: @unchecked Sendable {
         ORDER BY c.frequency_rank ASC
         """
 
-        let rows = (try? ctx.selectAll(sql: sql)) ?? []
-        return rows.compactMap { parseCharacter(row: $0) }
+        let rows: [[SQLValue]] = (try? ctx.selectAll(sql: sql)) ?? []
+        var results: [HanziCharacter] = []
+        for row in rows {
+            if let char = parseCharacter(row: row) {
+                results.append(char)
+            }
+        }
+        return results
     }
 
-    public func fetchCharacters(forLesson lessonNumber: Int) -> [Character] {
+    public func fetchCharacters(forLesson lessonNumber: Int) -> [HanziCharacter] {
         lock.lock()
         defer { lock.unlock() }
         guard let ctx = context else { return [] }
@@ -149,11 +155,17 @@ public final class DatabaseManager: @unchecked Sendable {
         ORDER BY c.frequency_rank ASC
         """
 
-        let rows = (try? ctx.selectAll(sql: sql, parameters: [SQLValue.long(Int64(lessonNumber))])) ?? []
-        return rows.compactMap { parseCharacter(row: $0) }
+        let rows: [[SQLValue]] = (try? ctx.selectAll(sql: sql, parameters: [SQLValue.long(Int64(lessonNumber))])) ?? []
+        var results: [HanziCharacter] = []
+        for row in rows {
+            if let char = parseCharacter(row: row) {
+                results.append(char)
+            }
+        }
+        return results
     }
 
-    public func fetchCharacter(rank: Int) -> Character? {
+    public func fetchCharacter(rank: Int) -> HanziCharacter? {
         lock.lock()
         defer { lock.unlock() }
         guard let ctx = context else { return nil }
@@ -168,14 +180,14 @@ public final class DatabaseManager: @unchecked Sendable {
         LIMIT 1
         """
 
-        let rows = (try? ctx.selectAll(sql: sql, parameters: [SQLValue.long(Int64(rank))])) ?? []
+        let rows: [[SQLValue]] = (try? ctx.selectAll(sql: sql, parameters: [SQLValue.long(Int64(rank))])) ?? []
         guard let first = rows.first, let char = parseCharacter(row: first) else { return nil }
         var result = char
         result.wordAssociations = fetchWordAssociationsInternal(characterId: rank)
         return result
     }
 
-    public func fetchCharacter(byGlyph glyph: String) -> Character? {
+    public func fetchCharacter(byGlyph glyph: String) -> HanziCharacter? {
         lock.lock()
         defer { lock.unlock() }
         guard let ctx = context else { return nil }
@@ -190,7 +202,7 @@ public final class DatabaseManager: @unchecked Sendable {
         LIMIT 1
         """
 
-        let rows = (try? ctx.selectAll(sql: sql, parameters: [SQLValue.text(glyph)])) ?? []
+        let rows: [[SQLValue]] = (try? ctx.selectAll(sql: sql, parameters: [SQLValue.text(glyph)])) ?? []
         guard let first = rows.first, let char = parseCharacter(row: first) else { return nil }
         var result = char
         result.wordAssociations = fetchWordAssociationsInternal(characterId: result.frequencyRank)
@@ -213,8 +225,14 @@ public final class DatabaseManager: @unchecked Sendable {
         WHERE character_id = ?
         ORDER BY id ASC
         """
-        let rows = (try? ctx.selectAll(sql: sql, parameters: [SQLValue.long(Int64(characterId))])) ?? []
-        return rows.compactMap { parseWordAssociation(row: $0) }
+        let rows: [[SQLValue]] = (try? ctx.selectAll(sql: sql, parameters: [SQLValue.long(Int64(characterId))])) ?? []
+        var results: [WordAssociation] = []
+        for row in rows {
+            if let assoc = parseWordAssociation(row: row) {
+                results.append(assoc)
+            }
+        }
+        return results
     }
 
     // MARK: - Lessons & Progress Calculations
@@ -235,22 +253,24 @@ public final class DatabaseManager: @unchecked Sendable {
         ORDER BY c.lesson_number ASC
         """
 
-        let rows = (try? ctx.selectAll(sql: sql)) ?? []
-        return rows.compactMap { row -> LessonInfo? in
-            guard row.count >= 4 else { return nil }
-            guard let lessonNum = extractInt(from: row[0]) else { return nil }
+        let rows: [[SQLValue]] = (try? ctx.selectAll(sql: sql)) ?? []
+        var results: [LessonInfo] = []
+        for row in rows {
+            guard row.count >= 4 else { continue }
+            guard let lessonNum = extractInt(from: row[0]) else { continue }
             let total = extractInt(from: row[1]) ?? 25
             let learned = extractInt(from: row[2]) ?? 0
             let inProgress = extractInt(from: row[3]) ?? 0
             let newCount = max(0, total - learned - inProgress)
-            return LessonInfo(
+            results.append(LessonInfo(
                 lessonNumber: lessonNum,
                 totalCount: total,
                 learnedCount: learned,
                 inProgressCount: inProgress,
                 newCount: newCount
-            )
+            ))
         }
+        return results
     }
 
     // MARK: - Status Mutations
@@ -334,14 +354,18 @@ public final class DatabaseManager: @unchecked Sendable {
         guard let ctx = context else { return [] }
 
         let sql = "SELECT id, data_json FROM stories ORDER BY id ASC"
-        let rows = (try? ctx.selectAll(sql: sql)) ?? []
+        let rows: [[SQLValue]] = (try? ctx.selectAll(sql: sql)) ?? []
         let decoder = JSONDecoder()
+        var results: [Story] = []
 
-        return rows.compactMap { row -> Story? in
-            guard row.count >= 2, let jsonStr = extractString(from: row[1]) else { return nil }
-            guard let data = jsonStr.data(using: .utf8) else { return nil }
-            return try? decoder.decode(Story.self, from: data)
+        for row in rows {
+            guard row.count >= 2, let jsonStr = extractString(from: row[1]) else { continue }
+            guard let data = jsonStr.data(using: .utf8) else { continue }
+            if let story = try? decoder.decode(Story.self, from: data) {
+                results.append(story)
+            }
         }
+        return results
     }
 
     public func fetchStory(id: String) -> Story? {
@@ -350,7 +374,7 @@ public final class DatabaseManager: @unchecked Sendable {
         guard let ctx = context else { return nil }
 
         let sql = "SELECT data_json FROM stories WHERE id = ? LIMIT 1"
-        let rows = (try? ctx.selectAll(sql: sql, parameters: [SQLValue.text(id)])) ?? []
+        let rows: [[SQLValue]] = (try? ctx.selectAll(sql: sql, parameters: [SQLValue.text(id)])) ?? []
         guard let first = rows.first, let jsonStr = extractString(from: first[0]) else { return nil }
         guard let data = jsonStr.data(using: .utf8) else { return nil }
         return try? JSONDecoder().decode(Story.self, from: data)
@@ -385,52 +409,56 @@ public final class DatabaseManager: @unchecked Sendable {
         guard let ctx = context else { return [] }
 
         let sql = "SELECT id, session_type, start_time, duration_seconds, cards_reviewed, created_at FROM study_sessions ORDER BY created_at DESC"
-        let rows = (try? ctx.selectAll(sql: sql)) ?? []
+        let rows: [[SQLValue]] = (try? ctx.selectAll(sql: sql)) ?? []
+        var results: [StudySession] = []
 
-        return rows.compactMap { row -> StudySession? in
-            guard row.count >= 6 else { return nil }
+        for row in rows {
+            guard row.count >= 6 else { continue }
             let id = extractInt(from: row[0])
             guard let type = extractString(from: row[1]),
                   let start = extractInt64(from: row[2]),
                   let duration = extractInt(from: row[3]),
                   let cards = extractInt(from: row[4]),
-                  let created = extractInt64(from: row[5]) else { return nil }
+                  let created = extractInt64(from: row[5]) else { continue }
 
-            return StudySession(
+            results.append(StudySession(
                 id: id,
                 sessionType: type,
                 startTime: start,
                 durationSeconds: duration,
                 cardsReviewed: cards,
                 createdAt: created
-            )
+            ))
         }
+        return results
     }
 
     // MARK: - Backup & Snapshot
 
-    public func exportProgressSnapshot() -> [[String: Any]] {
+    public func exportProgressSnapshot() -> [ProgressRecord] {
         lock.lock()
         defer { lock.unlock() }
         guard let ctx = context else { return [] }
 
         let sql = "SELECT character_id, status, updated_at FROM progress"
-        let rows = (try? ctx.selectAll(sql: sql)) ?? []
+        let rows: [[SQLValue]] = (try? ctx.selectAll(sql: sql)) ?? []
+        var results: [ProgressRecord] = []
 
-        return rows.compactMap { row -> [String: Any]? in
+        for row in rows {
             guard row.count >= 3,
                   let rank = extractInt(from: row[0]),
                   let status = extractString(from: row[1]),
-                  let updated = extractInt64(from: row[2]) else { return nil }
-            return [
-                "rank": rank,
-                "status": status,
-                "updatedAt": updated
-            ]
+                  let updated = extractInt64(from: row[2]) else { continue }
+            results.append(ProgressRecord(
+                rank: rank,
+                status: status,
+                updatedAt: updated
+            ))
         }
+        return results
     }
 
-    public func restoreProgressSnapshot(records: [[String: Any]]) -> Int {
+    public func restoreProgressSnapshot(records: [ProgressRecord]) -> Int {
         lock.lock()
         defer { lock.unlock() }
         guard let ctx = context, !records.isEmpty else { return 0 }
@@ -448,15 +476,10 @@ public final class DatabaseManager: @unchecked Sendable {
             defer { try? stmt.close() }
 
             for rec in records {
-                guard let rank = rec["rank"] as? Int,
-                      let status = rec["status"] as? String,
-                      let updated = (rec["updatedAt"] as? Int64) ?? (rec["updatedAt"] as? Int).map({ Int64($0) }) else {
-                    continue
-                }
                 try? stmt.update(parameters: [
-                    SQLValue.long(Int64(rank)),
-                    SQLValue.text(status),
-                    SQLValue.long(updated)
+                    SQLValue.long(Int64(rec.rank)),
+                    SQLValue.text(rec.status),
+                    SQLValue.long(rec.updatedAt)
                 ])
                 restoredCount += 1
             }
@@ -466,7 +489,7 @@ public final class DatabaseManager: @unchecked Sendable {
 
     // MARK: - Row Parsing Helpers
 
-    private func parseCharacter(row: [SQLValue]) -> Character? {
+    private func parseCharacter(row: [SQLValue]) -> HanziCharacter? {
         guard row.count >= 12 else { return nil }
         guard let rank = extractInt(from: row[0]),
               let char = extractString(from: row[1]),
@@ -488,7 +511,7 @@ public final class DatabaseManager: @unchecked Sendable {
         let status = statusRaw.flatMap { StudyStatus(rawValue: $0) } ?? .new
         let updatedAt = row.count > 13 ? extractInt64(from: row[13]) : nil
 
-        return Character(
+        return HanziCharacter(
             frequencyRank: rank,
             character: char,
             pinyin: pinyin,
@@ -502,7 +525,8 @@ public final class DatabaseManager: @unchecked Sendable {
             examplePy: exPy,
             exampleEn: exEn,
             status: status,
-            updatedAt: updatedAt
+            updatedAt: updatedAt,
+            wordAssociations: []
         )
     }
 
@@ -533,12 +557,12 @@ public final class DatabaseManager: @unchecked Sendable {
     }
 
     private func extractInt(from value: SQLValue) -> Int? {
-        if case .long(let val) = value { return Int(val) }
+        if case .long(let longNum) = value { return Int(longNum) }
         return nil
     }
 
     private func extractInt64(from value: SQLValue) -> Int64? {
-        if case .long(let val) = value { return val }
+        if case .long(let longNum) = value { return longNum }
         return nil
     }
 }

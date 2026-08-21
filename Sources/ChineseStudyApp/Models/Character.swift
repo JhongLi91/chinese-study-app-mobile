@@ -23,8 +23,21 @@ public enum StudyStatus: String, Codable, CaseIterable, Sendable {
     }
 }
 
+/// A serialized progress snapshot record for backup and migration.
+public struct ProgressRecord: Codable, Hashable, Sendable {
+    public let rank: Int
+    public let status: String
+    public let updatedAt: Int64
+
+    public init(rank: Int, status: String, updatedAt: Int64) {
+        self.rank = rank
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
 /// Core domain model for a Chinese character (Hanzi).
-public struct Character: Identifiable, Codable, Hashable, Sendable {
+public struct HanziCharacter: Identifiable, Codable, Hashable, Sendable {
     public var id: Int { frequencyRank }
     public let frequencyRank: Int
     public let character: String
@@ -105,3 +118,5 @@ public struct Character: Identifiable, Codable, Hashable, Sendable {
         definition.components(separatedBy: ";").first?.components(separatedBy: ",").first?.trimmingCharacters(in: .whitespacesAndNewlines) ?? definition
     }
 }
+
+public typealias Character = HanziCharacter
