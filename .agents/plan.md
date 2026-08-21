@@ -16,7 +16,7 @@ Each task is structured as a self-contained work package designed for direct ass
 │  Phase 2: Data Models & SQLite Storage Engine              [x] 100% (3/3)  │
 │  Phase 3: Core Mobile Services (Audio, Haptics, Backup)    [x] 100% (3/3)  │
 │  Phase 4: Domain ViewModels & State Management             [x] 100% (4/4)  │
-│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 12% (1/8)   │
+│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 25% (2/8)   │
 │  Phase 6: Android Build & Dual-Platform Verification       [ ] 0% (0/2)    │
 │  Phase 7: Direct Device Deployment & APK Sideloading       [ ] 0% (0/3)    │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -136,7 +136,7 @@ Each task is structured as a self-contained work package designed for direct ass
   * **Acceptance Criteria:** Smooth tab switching, persistent stopwatch banner in navigation bar.
   * **Delegation Target:** UI Agent.
 
-- [ ] **TASK-502: Lessons Grid & Progress View**
+- [x] **TASK-502: Lessons Grid & Progress View**
   * **Objective:** Build the 120-lesson grid with circular progress indicators, status badges (Learned / In-Progress / New), and quick start action.
   * **Key Deliverables:** `Views/Lessons/LessonsGridView.swift`, `Views/Lessons/LessonCardItemView.swift`, `Components/CircularProgressView.swift`.
   * **Dependencies:** TASK-402.

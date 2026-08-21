@@ -9,7 +9,7 @@ public struct MainTabView: View {
     public var body: some View {
         TabView(selection: $appState.selectedTab) {
             NavigationStack {
-                Text("Lessons View (120 Lessons)")
+                LessonsGridView()
                     .navigationTitle(AppTab.lessons.rawValue)
             }
             .tabItem {

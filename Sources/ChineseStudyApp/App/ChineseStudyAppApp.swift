@@ -8,12 +8,14 @@ public let logger: Logger = Logger(subsystem: "com.jhli.chinesestudy", category:
 /// The shared top-level view for the app, loaded from the platform-specific App delegates.
 public struct ChineseStudyAppRootView: View {
     @StateObject private var appState = AppState.shared
+    @StateObject private var studyData = StudyDataViewModel.shared
 
     public init() {}
 
     public var body: some View {
         MainTabView()
             .environmentObject(appState)
+            .environmentObject(studyData)
             .task {
                 logger.info("ChineseStudyApp launched successfully.")
             }
