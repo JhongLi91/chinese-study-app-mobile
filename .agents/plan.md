@@ -12,10 +12,10 @@ Each task is structured as a self-contained work package designed for direct ass
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  Phase 1: Project Scaffolding & Database Bundling          [ ] 50% (1/2)   │
-│  Phase 2: Data Models & SQLite Storage Engine              [ ] 0% (0/3)    │
-│  Phase 3: Core Mobile Services (Audio, Haptics, Backup)    [ ] 0% (0/3)    │
-│  Phase 4: Domain ViewModels & State Management             [ ] 0% (0/4)    │
+│  Phase 1: Project Scaffolding & Database Bundling          [x] 100% (2/2)  │
+│  Phase 2: Data Models & SQLite Storage Engine              [x] 100% (3/3)  │
+│  Phase 3: Core Mobile Services (Audio, Haptics, Backup)    [x] 100% (3/3)  │
+│  Phase 4: Domain ViewModels & State Management             [x] 100% (4/4)  │
 │  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 0% (0/8)    │
 │  Phase 6: Android Build & Dual-Platform Verification       [ ] 0% (0/2)    │
 │  Phase 7: Direct Device Deployment & APK Sideloading       [ ] 0% (0/3)    │
@@ -33,9 +33,9 @@ Each task is structured as a self-contained work package designed for direct ass
   * **Acceptance Criteria:** `skip checkup` passes cleanly and an empty SwiftUI "Hello World" builds and runs.
   * **Delegation Target:** Infrastructure / Setup Agent.
 
-- [ ] **TASK-102: Binary Database Pipeline & Asset Bundling**
+- [x] **TASK-102: Binary Database Pipeline & Asset Bundling**
   * **Objective:** Verify and bundle the pre-compiled `hanzi_db.sqlite` database (containing 3,000 characters, 8,868 word associations, and 6 HSK stories) into the app bundle resources.
-  * **Key Deliverables:** `ChineseStudyApp/Database/Resources/hanzi_db.sqlite`, asset catalogs for colors and tone markers.
+  * **Key Deliverables:** `Sources/ChineseStudyApp/Resources/hanzi_db.sqlite`, asset catalogs for colors and tone markers.
   * **Dependencies:** `scripts/seed_database.py`.
   * **Acceptance Criteria:** The bundled `.sqlite` file is under 2.5 MB and queryable from app bundle resources.
   * **Delegation Target:** Data Agent.
@@ -44,7 +44,7 @@ Each task is structured as a self-contained work package designed for direct ass
 
 ## Phase 2: Data Models & SQLite Storage Engine
 
-- [ ] **TASK-201: Swift Domain Models Definition**
+- [x] **TASK-201: Swift Domain Models Definition**
   * **Objective:** Create complete Swift models conforming to `Identifiable`, `Codable`, `Hashable`, and `Sendable`.
   * **Key Deliverables:** 
     * `Models/Character.swift` (Hanzi, Pinyin, Definition, Radical, HSK Level, StudyStatus)
@@ -55,14 +55,14 @@ Each task is structured as a self-contained work package designed for direct ass
   * **Acceptance Criteria:** All data types from web app are accurately mapped with zero compilation warnings.
   * **Delegation Target:** Core Data Agent.
 
-- [ ] **TASK-202: SQLite Database Manager & Connection Layer (SkipSQL)**
+- [x] **TASK-202: SQLite Database Manager & Connection Layer (SkipSQL)**
   * **Objective:** Implement a thread-safe SQLite connection manager using **SkipSQL** (`skiptools/skip-sql`) / SQLite3 that copies the pre-seeded `hanzi_db.sqlite` from app bundle to app sandbox on first run, enabling unified read/write capabilities across iOS and Android.
   * **Key Deliverables:** `Database/DatabaseManager.swift`.
   * **Dependencies:** TASK-102, TASK-201.
   * **Acceptance Criteria:** Reads 3,000 characters in <15ms; persists updates without data loss across app relaunches on both iOS and Android.
   * **Delegation Target:** Core Data Agent.
 
-- [ ] **TASK-203: Learning Progress & Session Repository**
+- [x] **TASK-203: Learning Progress & Session Repository**
   * **Objective:** Implement CRUD queries for character status transitions (`new` ➔ `in-progress` ➔ `learned`), lesson progress calculations, and study session logging.
   * **Key Deliverables:** `Database/ProgressRepository.swift` or repository methods in `DatabaseManager`.
   * **Dependencies:** TASK-202.
@@ -71,23 +71,23 @@ Each task is structured as a self-contained work package designed for direct ass
 
 ---
 
-## Phase 3: Core Mobile Services
+## Phase 3: Core Mobile Services (Audio, Haptics, Backup)
 
-- [ ] **TASK-301: Native Mandarin Audio & Sound Synthesis Engine**
+- [x] **TASK-301: Native Mandarin Audio & Sound Synthesis Engine**
   * **Objective:** Build an audio engine combining native Mandarin Text-To-Speech (`AVSpeechSynthesizer` with `zh-CN` voice) and synthesized tactile UI sound effects (flip, learned chime, in-progress thud, victory chord).
   * **Key Deliverables:** `Services/AudioService.swift`.
   * **Dependencies:** AVFoundation.
   * **Acceptance Criteria:** Speaks Chinese characters and full sentences with adjustable speech rate (0.75x–1.25x); sound effects trigger with <5ms latency.
   * **Delegation Target:** Services Agent.
 
-- [ ] **TASK-302: Tactile Haptics Feedback Engine**
+- [x] **TASK-302: Tactile Haptics Feedback Engine**
   * **Objective:** Build a haptics generator providing distinct tactile feedback for card flipping, marking learned (success chime + medium haptic), marking in-progress, and game streaks.
-  * **Key Deliverables:** `Services/HapticsService.swift`.
-  * **Dependencies:** CoreHaptics / UIKit.
+  * **Key Deliverables:** `Services/HapticService.swift`.
+  * **Dependencies:** CoreHaptics / UIKit / Android Vibrator.
   * **Acceptance Criteria:** Provides smooth, non-intrusive haptic feedback matching user gestures on supported devices.
   * **Delegation Target:** Services Agent.
 
-- [ ] **TASK-303: Progress Backup & Migration Service**
+- [x] **TASK-303: Progress Backup & Migration Service**
   * **Objective:** Implement a backup engine to export user learning progress to a portable JSON backup file (shareable via iOS Share Sheet) and restore from an existing backup.
   * **Key Deliverables:** `Services/BackupService.swift`.
   * **Dependencies:** TASK-203.
@@ -98,27 +98,27 @@ Each task is structured as a self-contained work package designed for direct ass
 
 ## Phase 4: Domain ViewModels & State Management
 
-- [ ] **TASK-401: Global AppState & Study Timer ViewModel**
+- [x] **TASK-401: Global AppState & Study Timer ViewModel**
   * **Objective:** Manage top-level environment state (active tab selection, audio sound toggle, global stopwatch timer, search query state).
   * **Key Deliverables:** `App/AppState.swift`.
   * **Acceptance Criteria:** Stopwatch persists when switching tabs; sound toggle globally enables/mutes audio.
   * **Delegation Target:** ViewModel Agent.
 
-- [ ] **TASK-402: StudyDataViewModel (Curriculum & Review Manager)**
+- [x] **TASK-402: StudyDataViewModel (Curriculum & Review Manager)**
   * **Objective:** Coordinate lessons list, card queue for the active lesson, learned list, in-progress list, and batch status mutations.
   * **Key Deliverables:** `ViewModels/StudyDataViewModel.swift`.
   * **Dependencies:** TASK-203.
   * **Acceptance Criteria:** Instant filtering across 3,000 characters; reactive updates to all view subscribers.
   * **Delegation Target:** ViewModel Agent.
 
-- [ ] **TASK-403: StoryViewModel (Reading & Comprehension Manager)**
+- [x] **TASK-403: StoryViewModel (Reading & Comprehension Manager)**
   * **Objective:** Manage story catalog, sentence-by-sentence audio playback, pinyin mode (`ruby`, `line`, `none`), English translation visibility, and quiz score tracking.
   * **Key Deliverables:** `ViewModels/StoryViewModel.swift`.
   * **Dependencies:** TASK-202, TASK-301.
   * **Acceptance Criteria:** Synchronizes audio reading with highlighted sentence; validates quiz answers with explanations.
   * **Delegation Target:** ViewModel Agent.
 
-- [ ] **TASK-404: WordMatchViewModel (Mini-Game Logic)**
+- [x] **TASK-404: WordMatchViewModel (Mini-Game Logic)**
   * **Objective:** Handle 4x4 / 6x6 / 8x8 pairing grid generation from studied characters, selection state, match validation, streak multipliers, and high score calculation.
   * **Key Deliverables:** `ViewModels/WordMatchViewModel.swift`.
   * **Dependencies:** TASK-201, TASK-301.

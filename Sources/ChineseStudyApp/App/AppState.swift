@@ -25,7 +25,7 @@ public enum AppTab: String, CaseIterable, Identifiable, Sendable {
     }
 }
 
-/// Global application state managing navigation, stopwatch, and sound preferences.
+/// Global application state managing tab navigation and audio preferences.
 @MainActor
 public final class AppState: ObservableObject {
     public static let shared = AppState()
@@ -36,47 +36,7 @@ public final class AppState: ObservableObject {
     @Published public var speechRate: Double = 1.0
     @Published public var autoPlayAudioOnFlip: Bool = false
 
-    // Stopwatch State
-    @Published public var stopwatchSeconds: Int = 0
-    @Published public var isStopwatchRunning: Bool = false
-    private var timerSubscription: AnyCancellable?
-
-    public init() {
-        startStopwatch()
-    }
-
-    public func startStopwatch() {
-        guard !isStopwatchRunning else { return }
-        isStopwatchRunning = true
-        timerSubscription = Timer.publish(every: 1.0, on: .main, in: .common)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self = self, self.isStopwatchRunning else { return }
-                self.stopwatchSeconds += 1
-            }
-    }
-
-    public func pauseStopwatch() {
-        isStopwatchRunning = false
-        timerSubscription?.cancel()
-        timerSubscription = nil
-    }
-
-    public func resetStopwatch() {
-        pauseStopwatch()
-        stopwatchSeconds = 0
-    }
-
-    public var formattedStopwatchTime: String {
-        let hours = stopwatchSeconds / 3600
-        let minutes = (stopwatchSeconds % 3600) / 60
-        let seconds = stopwatchSeconds % 60
-        if hours > 0 {
-            return String(format: "%d:%02d:%02d", hours, minutes, seconds)
-        } else {
-            return String(format: "%02d:%02d", minutes, seconds)
-        }
-    }
+    public init() {}
 
     public func navigateToLessonFlashcards(lessonNumber: Int) {
         self.activeLessonNumber = lessonNumber

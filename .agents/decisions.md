@@ -128,3 +128,12 @@ This document tracks key technical decisions, architectural choices, and resolut
   * Matches Apple Swift Package Manager and Skip conventions.
   * Enables automatic resource bundle accessor generation (`Bundle.module.url(forResource: "hanzi_db", withExtension: "sqlite")`) without path fragmentation.
 
+---
+
+## ADR-008: Elimination of Stopwatch Timer
+
+* **Date:** 2026-08-21
+* **Status:** Accepted
+* **Context:** User requested no need for a global stopwatch timer in the mobile app header.
+* **Decision:** Removed background timer subscriptions and stopwatch counter from `AppState.swift` to eliminate CPU wakeups and keep the UI clean.
+* **Consequences:** Simplified `AppState` and removed background timer overhead.
