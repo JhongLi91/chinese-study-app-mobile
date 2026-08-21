@@ -16,7 +16,7 @@ Each task is structured as a self-contained work package designed for direct ass
 │  Phase 2: Data Models & SQLite Storage Engine              [x] 100% (3/3)  │
 │  Phase 3: Core Mobile Services (Audio, Haptics, Backup)    [x] 100% (3/3)  │
 │  Phase 4: Domain ViewModels & State Management             [x] 100% (4/4)  │
-│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 25% (2/8)   │
+│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 37% (3/8)   │
 │  Phase 6: Android Build & Dual-Platform Verification       [ ] 0% (0/2)    │
 │  Phase 7: Direct Device Deployment & APK Sideloading       [ ] 0% (0/3)    │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -143,7 +143,7 @@ Each task is structured as a self-contained work package designed for direct ass
   * **Acceptance Criteria:** Fluid scrolling across 120 lessons, accurate percentage completion rings.
   * **Delegation Target:** UI Agent.
 
-- [ ] **TASK-503: Interactive Flashcard Study Deck with Touch Gestures**
+- [x] **TASK-503: Interactive Flashcard Study Deck with Touch Gestures**
   * **Objective:** Build the interactive flashcard deck replacing Vim keybindings with mobile touch gestures:
     * Tap to 3D flip card (`rotation3DEffect`)
     * Swipe Right (>120px) to mark **Learned**

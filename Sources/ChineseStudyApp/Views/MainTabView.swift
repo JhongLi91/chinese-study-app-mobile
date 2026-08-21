@@ -18,8 +18,8 @@ public struct MainTabView: View {
             .tag(AppTab.lessons)
 
             NavigationStack {
-                Text("Flashcards View")
-                    .navigationTitle(AppTab.flashcards.rawValue)
+                FlashcardStudyView()
+                    .navigationTitle("Review")
             }
             .tabItem {
                 Label(AppTab.flashcards.rawValue, systemImage: AppTab.flashcards.systemImage)
