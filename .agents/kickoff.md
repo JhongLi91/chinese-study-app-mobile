@@ -113,15 +113,14 @@ chinese-study-mobile/
 
 ---
 
-## 6. Current Project State & Your Starting Task
+## 6. Dynamic Task Discovery & Handoff Protocol
 
-* **Current Status:**
-  * ✅ Pre-compiled database generated at `ChineseStudyApp/Database/Resources/hanzi_db.sqlite` (3,000 characters, 8,868 word associations, 6 stories).
-  * ✅ `Character.swift` base model defined in `ChineseStudyApp/Models/Character.swift`.
-  * ✅ Skip CLI 1.9.7, Swift 6.2, and Gradle 9.7 installed on system.
-* **Your Immediate Next Tasks:**
-  * 👉 **`TASK-101`**: Initialize/configure the Skip project package structure (`Package.swift`).
-  * 👉 **`TASK-201`**: Complete remaining Swift domain models (`LessonInfo.swift`, `Story.swift`, `WordAssociation.swift`, `StudySession.swift`).
-  * 👉 **`TASK-202`**: Implement `Database/DatabaseManager.swift` using SkipSQL.
+When you start your session:
 
-*Good luck, and build great software!*
+1. **Locate the Next Task:** Open [`.agents/plan.md`](./plan.md) and scan the task list from top to bottom. Identify the **first unchecked task (`- [ ] TASK-XXX`)**. That is your assigned task.
+2. **Check Prior Completed Tasks:** Review the preceding checked tasks (`- [x]`) to understand what files and infrastructure have already been built.
+3. **Execute:** Follow the 6-step workflow in Section 4 to implement, test, and verify your task.
+4. **Mark Complete:** Once all acceptance criteria are satisfied, edit [`.agents/plan.md`](./plan.md) and mark the task as complete (`- [x] TASK-XXX`), updating the phase completion counter.
+5. **Handoff Report:** Summarize what was completed, list the files modified, and confirm which task in [`.agents/plan.md`](./plan.md) is now queued for the next session.
+
+*You are now ready to begin. Open [`.agents/plan.md`](./plan.md) and start on the next open task!*
