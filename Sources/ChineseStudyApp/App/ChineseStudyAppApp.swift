@@ -12,7 +12,7 @@ public struct ChineseStudyAppRootView: View {
     public init() {}
 
     public var body: some View {
-        ContentView()
+        MainTabView()
             .environmentObject(appState)
             .task {
                 logger.info("ChineseStudyApp launched successfully.")
