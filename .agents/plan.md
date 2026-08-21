@@ -16,7 +16,7 @@ Each task is structured as a self-contained work package designed for direct ass
 │  Phase 2: Data Models & SQLite Storage Engine              [x] 100% (3/3)  │
 │  Phase 3: Core Mobile Services (Audio, Haptics, Backup)    [x] 100% (3/3)  │
 │  Phase 4: Domain ViewModels & State Management             [x] 100% (4/4)  │
-│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 62% (5/8)   │
+│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 75% (6/8)   │
 │  Phase 6: Android Build & Dual-Platform Verification       [ ] 0% (0/2)    │
 │  Phase 7: Direct Device Deployment & APK Sideloading       [ ] 0% (0/3)    │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -169,7 +169,7 @@ Each task is structured as a self-contained work package designed for direct ass
   * **Acceptance Criteria:** Grid scales gracefully on iPhone and iPad/tablet screens; haptics on selection and match.
   * **Delegation Target:** UI Agent.
 
-- [ ] **TASK-506: Searchable Vocabulary Lists & Batch Operations**
+- [x] **TASK-506: Searchable Vocabulary Lists & Batch Operations**
   * **Objective:** Build filterable vocabulary tables for Learned, In-Progress, and All 3,000 characters with real-time search (by Hanzi, Pinyin, English) and HSK filters.
   * **Key Deliverables:** `Views/Vocab/VocabListView.swift`, `Views/Vocab/VocabRowView.swift`.
   * **Dependencies:** TASK-402.

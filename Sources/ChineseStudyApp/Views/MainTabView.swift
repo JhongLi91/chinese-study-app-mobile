@@ -45,8 +45,8 @@ public struct MainTabView: View {
             .tag(AppTab.match)
 
             NavigationStack {
-                Text("Vocabulary View")
-                    .navigationTitle(AppTab.review.rawValue)
+                DictionarySearchView()
+                    .navigationTitle("Dictionary")
             }
             .tabItem {
                 Label(AppTab.review.rawValue, systemImage: AppTab.review.systemImage)
