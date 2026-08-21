@@ -16,7 +16,7 @@ Each task is structured as a self-contained work package designed for direct ass
 │  Phase 2: Data Models & SQLite Storage Engine              [x] 100% (3/3)  │
 │  Phase 3: Core Mobile Services (Audio, Haptics, Backup)    [x] 100% (3/3)  │
 │  Phase 4: Domain ViewModels & State Management             [x] 100% (4/4)  │
-│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 37% (3/8)   │
+│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 50% (4/8)   │
 │  Phase 6: Android Build & Dual-Platform Verification       [ ] 0% (0/2)    │
 │  Phase 7: Direct Device Deployment & APK Sideloading       [ ] 0% (0/3)    │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -155,7 +155,7 @@ Each task is structured as a self-contained work package designed for direct ass
   * **Acceptance Criteria:** 60/120fps spring animation on swipes; interactive example sentence sheet with native Mandarin audio playback.
   * **Delegation Target:** UI Agent.
 
-- [ ] **TASK-504: Graded Story Reader & Character Inspector**
+- [x] **TASK-504: Graded Story Reader & Character Inspector**
   * **Objective:** Implement the story reader with ruby pinyin annotations, paragraph translation toggles, continuous narration controls, and interactive Hanzi tap-to-inspect dictionary sheet.
   * **Key Deliverables:** `Views/Stories/StoryCatalogView.swift`, `Views/Stories/StoryDetailReaderView.swift`, `Views/Stories/CharacterInspectorSheet.swift`, `Views/Stories/StoryQuizView.swift`.
   * **Dependencies:** TASK-403.

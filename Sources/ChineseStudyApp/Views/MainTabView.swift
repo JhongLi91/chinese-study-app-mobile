@@ -27,7 +27,7 @@ public struct MainTabView: View {
             .tag(AppTab.flashcards)
 
             NavigationStack {
-                Text("Stories View")
+                StoryCatalogView()
                     .navigationTitle(AppTab.stories.rawValue)
             }
             .tabItem {
