@@ -16,7 +16,7 @@ Each task is structured as a self-contained work package designed for direct ass
 │  Phase 2: Data Models & SQLite Storage Engine              [x] 100% (3/3)  │
 │  Phase 3: Core Mobile Services (Audio, Haptics, Backup)    [x] 100% (3/3)  │
 │  Phase 4: Domain ViewModels & State Management             [x] 100% (4/4)  │
-│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 50% (4/8)   │
+│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 62% (5/8)   │
 │  Phase 6: Android Build & Dual-Platform Verification       [ ] 0% (0/2)    │
 │  Phase 7: Direct Device Deployment & APK Sideloading       [ ] 0% (0/3)    │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -162,7 +162,7 @@ Each task is structured as a self-contained work package designed for direct ass
   * **Acceptance Criteria:** Tapping any Hanzi inside the story text displays definition, rank, and study status in a bottom sheet.
   * **Delegation Target:** UI Agent.
 
-- [ ] **TASK-505: Word Match Mini-Game View**
+- [x] **TASK-505: Word Match Mini-Game View**
   * **Objective:** Build the interactive matching game UI with animated card tiles, streak counter, combo multipliers, and celebration screen.
   * **Key Deliverables:** `Views/WordMatch/WordMatchGameView.swift`, `Views/WordMatch/MatchCardTile.swift`.
   * **Dependencies:** TASK-404.

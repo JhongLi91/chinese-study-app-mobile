@@ -36,7 +36,7 @@ public struct MainTabView: View {
             .tag(AppTab.stories)
 
             NavigationStack {
-                Text("Match Game View")
+                WordMatchGameView()
                     .navigationTitle(AppTab.match.rawValue)
             }
             .tabItem {
