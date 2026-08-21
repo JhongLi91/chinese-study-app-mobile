@@ -12,7 +12,7 @@ import subprocess
 import sys
 
 BASE_WEB_DATA_DIR = "/Users/jhli/Projects/chinese-study/src/data"
-OUTPUT_DIR = "/Users/jhli/Projects/chinese-study-mobile/ChineseStudyApp/Database/Resources"
+OUTPUT_DIR = "/Users/jhli/Projects/chinese-study-mobile/Sources/ChineseStudyApp/Resources"
 OUTPUT_DB_PATH = os.path.join(OUTPUT_DIR, "hanzi_db.sqlite")
 
 def ensure_dirs():

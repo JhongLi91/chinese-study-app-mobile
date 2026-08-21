@@ -14,6 +14,7 @@ This document tracks key technical decisions, architectural choices, and resolut
 | **[ADR-004](#adr-004-mobile-interaction-model-for-flashcards)** | Mobile Interaction Model for Flashcards | **Accepted** | 2026-08-21 |
 | **[ADR-005](#adr-005-mandarin-audio-synthesis-engine)** | Mandarin Audio Synthesis Engine | **Accepted** | 2026-08-21 |
 | **[ADR-006](#adr-006-target-deployment--direct-android-device-execution)** | Target Deployment: Direct Android Device Execution (APK/ADB) | **Accepted** | 2026-08-21 |
+| **[ADR-007](#adr-007-swift-package-directory-layout--resource-bundling)** | Swift Package Directory Layout & Resource Bundling | **Accepted** | 2026-08-21 |
 
 ---
 
@@ -111,3 +112,19 @@ This document tracks key technical decisions, architectural choices, and resolut
 * **Rationale:**
   * Fastest path to a functional, high-performance Chinese learning app running directly on the user's phone.
   * Preserves 100% of the Swift & SwiftUI architecture and offline SQLite functionality.
+
+---
+
+## ADR-007: Swift Package Directory Layout & Resource Bundling
+
+* **Date:** 2026-08-21
+* **Status:** Accepted
+* **Context:** Initial repo had a root `ChineseStudyApp/` directory alongside the Skip SPM package structure.
+* **Decision:**
+  * Consolidate all Swift code, assets, and database resources under standard SwiftPM layout: `Sources/ChineseStudyApp/` (including `Sources/ChineseStudyApp/Resources/hanzi_db.sqlite`).
+  * Remove redundant root `ChineseStudyApp/` directory.
+  * Update `scripts/seed_database.py` to write directly to `Sources/ChineseStudyApp/Resources/hanzi_db.sqlite`.
+* **Rationale:**
+  * Matches Apple Swift Package Manager and Skip conventions.
+  * Enables automatic resource bundle accessor generation (`Bundle.module.url(forResource: "hanzi_db", withExtension: "sqlite")`) without path fragmentation.
+

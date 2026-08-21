@@ -12,7 +12,7 @@ Each task is structured as a self-contained work package designed for direct ass
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  Phase 1: Project Scaffolding & Database Bundling          [ ] 0% (0/2)    │
+│  Phase 1: Project Scaffolding & Database Bundling          [ ] 50% (1/2)   │
 │  Phase 2: Data Models & SQLite Storage Engine              [ ] 0% (0/3)    │
 │  Phase 3: Core Mobile Services (Audio, Haptics, Backup)    [ ] 0% (0/3)    │
 │  Phase 4: Domain ViewModels & State Management             [ ] 0% (0/4)    │
@@ -26,7 +26,7 @@ Each task is structured as a self-contained work package designed for direct ass
 
 ## Phase 1: Project Scaffolding & Database Pipeline
 
-- [ ] **TASK-101: Skip / Xcode Project Scaffolding**
+- [x] **TASK-101: Skip / Xcode Project Scaffolding**
   * **Objective:** Scaffold the dual-platform Swift Package / Xcode project using the Skip toolchain targeting iOS 17+ and Android API 34+.
   * **Key Deliverables:** `Package.swift`, `ChineseStudyApp.xcodeproj` or Skip module structure, bundle identifiers (`com.jhli.chinesestudy`).
   * **Dependencies:** Skip CLI, Xcode, OpenJDK.

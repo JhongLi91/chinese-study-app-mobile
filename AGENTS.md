@@ -11,7 +11,7 @@
 * **App:** Offline-first Chinese study app (3,000 Hanzi, 120 lessons, stories, flashcards, match game).
 * **Language & Core:** Developed 100% in **Swift 5.10 / 6** + **SwiftUI**.
 * **Primary Target:** Compiling Swift to native Android via **Skip.tools** (`skip.tools`) to run directly on an Android device via APK / ADB (as well as iOS).
-* **Database:** Pre-compiled SQLite (`ChineseStudyApp/Database/Resources/hanzi_db.sqlite`) via SkipSQL.
+* **Database:** Pre-compiled SQLite (`Sources/ChineseStudyApp/Resources/hanzi_db.sqlite`) via SkipSQL.
 * **Audio:** Native Mandarin TTS (`AVSpeechSynthesizer` with `zh-CN` / Android TTS) + sound effects.
 * **Deployment:** Direct APK installation / ADB sideloading on Android phone (no App Store / Google Play requirements).
 
@@ -26,7 +26,8 @@ chinese-study-mobile/
 │   ├── implementation-plan.md # Full technical specification
 │   └── decisions.md           # Architecture Decision Records (ADRs)
 ├── scripts/seed_database.py   # Pre-compiles JSON data into binary SQLite DB
-├── ChineseStudyApp/           # App, Models, Database, Services, ViewModels, Views
+├── Sources/ChineseStudyApp/   # App, Models, Database, Services, ViewModels, Views, Resources
+├── Darwin/                    # iOS app wrapper & Xcode project
 └── Android/                   # Skip build & Gradle config
 ```
 
@@ -48,7 +49,7 @@ chinese-study-mobile/
 python3 scripts/seed_database.py
 
 # Verify SQLite database
-sqlite3 ChineseStudyApp/Database/Resources/hanzi_db.sqlite "SELECT count(*) FROM characters;"
+sqlite3 Sources/ChineseStudyApp/Resources/hanzi_db.sqlite "SELECT count(*) FROM characters;"
 
 # Check Skip toolchain
 skip checkup
