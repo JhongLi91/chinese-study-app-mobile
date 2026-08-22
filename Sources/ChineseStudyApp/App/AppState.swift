@@ -35,6 +35,8 @@ public final class AppState: ObservableObject {
     @Published public var isSoundEffectsEnabled: Bool = true
     @Published public var speechRate: Double = 1.0
     @Published public var autoPlayAudioOnFlip: Bool = false
+    
+    @AppStorage("isDarkMode") public var isDarkMode: Bool = true
 
     public init() {}
 

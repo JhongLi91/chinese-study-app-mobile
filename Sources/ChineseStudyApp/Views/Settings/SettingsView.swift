@@ -100,5 +100,10 @@ public struct SettingsView: View {
         } message: {
             Text("Are you absolutely sure? This action cannot be undone unless you have a backup file.")
         }
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                ThemeToggle()
+            }
+        }
     }
 }

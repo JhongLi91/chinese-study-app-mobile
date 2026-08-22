@@ -100,6 +100,11 @@ public struct FlashcardStudyView: View {
                 ExampleSentenceSheet(character: card)
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                ThemeToggle()
+            }
+        }
     }
 
     private func handleSwipe() {

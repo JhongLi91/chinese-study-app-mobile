@@ -27,5 +27,10 @@ public struct LessonsGridView: View {
             .padding(16)
         }
         .background(AppTheme.surfaceBackground.ignoresSafeArea())
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                ThemeToggle()
+            }
+        }
     }
 }

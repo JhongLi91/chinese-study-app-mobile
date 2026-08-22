@@ -16,6 +16,7 @@ public struct ChineseStudyAppRootView: View {
         MainTabView()
             .environmentObject(appState)
             .environmentObject(studyData)
+            .preferredColorScheme(appState.isDarkMode ? .dark : .light)
             .task {
                 logger.info("ChineseStudyApp launched successfully.")
             }

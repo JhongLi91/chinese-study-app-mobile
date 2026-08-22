@@ -160,6 +160,11 @@ public struct WordMatchGameView: View {
                 gameViewModel.startNewGame(mode: .lesson(newLesson))
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                ThemeToggle()
+            }
+        }
     }
     
     private func startSelectedGameMode() {

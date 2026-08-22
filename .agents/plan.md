@@ -16,7 +16,7 @@ Each task is structured as a self-contained work package designed for direct ass
 │  Phase 2: Data Models & SQLite Storage Engine              [x] 100% (3/3)  │
 │  Phase 3: Core Mobile Services (Audio, Haptics, Backup)    [x] 100% (3/3)  │
 │  Phase 4: Domain ViewModels & State Management             [x] 100% (4/4)  │
-│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 90% (9/10)  │
+│  Phase 5: SwiftUI Presentation Views & Gestures            [x] 100% (10/10)│
 │  Phase 6: Android Build & Dual-Platform Verification       [ ] 0% (0/2)    │
 │  Phase 7: Direct Device Deployment & APK Sideloading       [ ] 0% (0/3)    │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -197,7 +197,7 @@ Each task is structured as a self-contained work package designed for direct ass
   * **Acceptance Criteria:** The tabs correctly reflect the requested web parity changes.
   * **Delegation Target:** UI Agent.
 
-- [ ] **TASK-510: Dynamic Light / Dark Theme Support**
+- [x] **TASK-510: Dynamic Light / Dark Theme Support**
   * **Objective:** Implement a system-wide light mode option, including a toggle button in the navigation header. Ensure the color palette dynamically adapts (e.g., inverting standard dark slate colors) and persist the user's preference (e.g., using `@AppStorage` or similar mechanism).
   * **Key Deliverables:** `App/AppState.swift`, `Views/MainTabView.swift`, `Components/ThemeToggle.swift`.
   * **Dependencies:** TASK-401, TASK-501.

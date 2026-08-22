@@ -1,6 +1,7 @@
 import SwiftUI
 
 /// Standard color palette and styling definitions for Chinese Study Mobile.
+@MainActor
 public struct AppTheme {
 
     // MARK: - Mandarin Tone Colors (Tones 1 - 5)
@@ -52,11 +53,34 @@ public struct AppTheme {
     }
 
     // MARK: - UI Surfaces & Badges
+    
+    private static var isDark: Bool {
+        AppState.shared.isDarkMode
+    }
 
-    /// Card background container fill (neutral slate dark / soft cream light)
-    public static let cardBackground = Color(red: 30.0 / 255.0, green: 41.0 / 255.0, blue: 59.0 / 255.0)
-    public static let cardBorder = Color(red: 51.0 / 255.0, green: 65.0 / 255.0, blue: 85.0 / 255.0)
-    public static let surfaceBackground = Color(red: 15.0 / 255.0, green: 23.0 / 255.0, blue: 42.0 / 255.0)
-    public static let textPrimary = Color.white
-    public static let textSecondary = Color(red: 148.0 / 255.0, green: 163.0 / 255.0, blue: 184.0 / 255.0)
+    /// Card background container fill
+    public static var cardBackground: Color {
+        isDark ? Color(red: 30.0 / 255.0, green: 41.0 / 255.0, blue: 59.0 / 255.0)
+               : Color(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0)
+    }
+    
+    public static var cardBorder: Color {
+        isDark ? Color(red: 51.0 / 255.0, green: 65.0 / 255.0, blue: 85.0 / 255.0)
+               : Color(red: 226.0 / 255.0, green: 232.0 / 255.0, blue: 240.0 / 255.0)
+    }
+    
+    public static var surfaceBackground: Color {
+        isDark ? Color(red: 15.0 / 255.0, green: 23.0 / 255.0, blue: 42.0 / 255.0)
+               : Color(red: 248.0 / 255.0, green: 250.0 / 255.0, blue: 252.0 / 255.0)
+    }
+    
+    public static var textPrimary: Color {
+        isDark ? Color.white
+               : Color(red: 15.0 / 255.0, green: 23.0 / 255.0, blue: 42.0 / 255.0)
+    }
+    
+    public static var textSecondary: Color {
+        isDark ? Color(red: 148.0 / 255.0, green: 163.0 / 255.0, blue: 184.0 / 255.0)
+               : Color(red: 100.0 / 255.0, green: 116.0 / 255.0, blue: 139.0 / 255.0)
+    }
 }

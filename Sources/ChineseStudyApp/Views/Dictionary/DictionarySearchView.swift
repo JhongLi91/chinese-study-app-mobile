@@ -60,6 +60,9 @@ public struct DictionarySearchView: View {
         }
         .background(AppTheme.surfaceBackground.ignoresSafeArea())
         .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                ThemeToggle()
+            }
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     showQuizModal = true
