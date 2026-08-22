@@ -16,15 +16,24 @@ public struct MatchCardTile: View {
                     .fill(backgroundColor)
                 
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(borderColor, lineWidth: card.isSelected ? 3 : 1)
+                    .stroke(borderColor, lineWidth: card.isSelected ? 3.0 : 1.0)
                 
                 VStack(spacing: 4) {
-                    Text(card.displayText)
-                        .font(card.type == .character ? .system(size: 36, weight: .bold) : .headline)
-                        .foregroundColor(textColor)
-                        .multilineTextAlignment(.center)
-                        .minimumScaleFactor(0.5)
-                        .lineLimit(card.type == .character ? 1 : 2)
+                    if card.type == .character {
+                        Text(card.displayText)
+                            .font(.system(size: 36, weight: .bold))
+                            .foregroundColor(textColor)
+                            .multilineTextAlignment(.center)
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(1)
+                    } else {
+                        Text(card.displayText)
+                            .font(.headline)
+                            .foregroundColor(textColor)
+                            .multilineTextAlignment(.center)
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(2)
+                    }
                     
                     if let subText = card.subText, card.type == .character {
                         Text(subText)
@@ -36,7 +45,7 @@ public struct MatchCardTile: View {
             }
             .aspectRatio(1.0, contentMode: .fit)
             // Add a shaking effect if wrong
-            .offset(x: card.isWrong ? 5 : 0)
+            .offset(x: card.isWrong ? 5.0 : 0.0)
             .animation(.spring(response: 0.2, dampingFraction: 0.2), value: card.isWrong)
             .opacity(card.isMatched ? 0.0 : 1.0)
             .animation(.easeInOut(duration: 0.3), value: card.isMatched)

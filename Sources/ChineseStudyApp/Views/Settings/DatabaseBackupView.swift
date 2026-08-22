@@ -1,12 +1,13 @@
 import SwiftUI
+#if !SKIP
 import UniformTypeIdentifiers
+#endif
 
 public struct DatabaseBackupView: View {
     @StateObject private var backupService = BackupService.shared
     @EnvironmentObject var studyData: StudyDataViewModel
     
     @State private var exportURL: URL? = nil
-    @State private var isShowingExporter = false
     @State private var isShowingImporter = false
     @State private var alertMessage = ""
     @State private var showAlert = false
@@ -15,6 +16,46 @@ public struct DatabaseBackupView: View {
     public init() {}
 
     public var body: some View {
+        #if !SKIP
+        content
+            .fileImporter(
+                isPresented: $isShowingImporter,
+                allowedContentTypes: [UTType.json, UTType.plainText],
+                allowsMultipleSelection: false
+            ) { result in
+                do {
+                    guard let selectedFile: URL = try result.get().first else { return }
+                    if selectedFile.startAccessingSecurityScopedResource() {
+                        defer { selectedFile.stopAccessingSecurityScopedResource() }
+                        let restoredCount = try backupService.restoreBackup(from: selectedFile)
+                        studyData.loadData()
+                        alertMessage = "Successfully restored progress for \(restoredCount) characters."
+                        showAlert = true
+                    } else {
+                        alertMessage = "Failed to access selected file."
+                        showAlert = true
+                    }
+                } catch {
+                    alertMessage = "Restore failed: \(error.localizedDescription)"
+                    showAlert = true
+                }
+            }
+            .alert("Backup Restore", isPresented: $showAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(alertMessage)
+            }
+        #else
+        content
+            .alert("Backup Restore", isPresented: $showAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(alertMessage)
+            }
+        #endif
+    }
+    
+    private var content: some View {
         VStack(spacing: 24) {
             Text("Data Backup & Restore")
                 .font(.title2.bold())
@@ -27,7 +68,6 @@ public struct DatabaseBackupView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             VStack(spacing: 16) {
-                // Export Button
                 if isExporting {
                     ProgressView()
                         .frame(maxWidth: .infinity)
@@ -62,9 +102,13 @@ public struct DatabaseBackupView: View {
                     }
                 }
                 
-                // Import Button
                 Button {
+                    #if !SKIP
                     isShowingImporter = true
+                    #else
+                    alertMessage = "Restoring backups on Android requires direct file access. Currently unavailable in this build."
+                    showAlert = true
+                    #endif
                 } label: {
                     HStack {
                         Image(systemName: "square.and.arrow.down")
@@ -86,36 +130,6 @@ public struct DatabaseBackupView: View {
         .padding()
         .background(AppTheme.cardBackground)
         .cornerRadius(16)
-        .fileImporter(
-            isPresented: $isShowingImporter,
-            allowedContentTypes: [UTType.json, UTType.plainText],
-            allowsMultipleSelection: false
-        ) { result in
-            do {
-                guard let selectedFile: URL = try result.get().first else { return }
-                // Request access to read the file
-                if selectedFile.startAccessingSecurityScopedResource() {
-                    defer { selectedFile.stopAccessingSecurityScopedResource() }
-                    let restoredCount = try backupService.restoreBackup(from: selectedFile)
-                    studyData.loadData() // Refresh in-memory state
-                    alertMessage = "Successfully restored progress for \(restoredCount) characters."
-                    showAlert = true
-                } else {
-                    alertMessage = "Failed to access selected file."
-                    showAlert = true
-                }
-            } catch {
-                alertMessage = "Restore failed: \(error.localizedDescription)"
-                showAlert = true
-            }
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text("Backup Restore"),
-                message: Text(alertMessage),
-                dismissButton: Alert.Button.default(Text("OK"))
-            )
-        }
     }
     
     private func generateBackup() {

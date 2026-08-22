@@ -34,13 +34,15 @@ public struct StoryQuizView: View {
                 }
                 
                 // Questions
-                ForEach(Array(story.questions.enumerated()), id: \.element.id) { index, question in
+                ForEach(0..<story.questions.count, id: \.self) { index in
+                    let question = story.questions[index]
                     VStack(alignment: .leading, spacing: 16) {
                         Text("\(index + 1). \(question.question)")
                             .font(.headline)
                             .foregroundColor(AppTheme.textPrimary)
                         
-                        ForEach(Array(question.options.enumerated()), id: \.offset) { optIndex, option in
+                        ForEach(0..<question.options.count, id: \.self) { optIndex in
+                            let option = question.options[optIndex]
                             Button {
                                 storyViewModel.selectQuizOption(questionIndex: index, optionIndex: optIndex)
                             } label: {

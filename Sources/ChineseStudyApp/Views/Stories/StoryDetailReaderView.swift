@@ -34,7 +34,8 @@ public struct StoryDetailReaderView: View {
                 // Paragraphs
                 ForEach(story.paragraphs) { paragraph in
                     VStack(alignment: .leading, spacing: 16) {
-                        ForEach(Array(paragraph.sentences.enumerated()), id: \.element.id) { index, sentence in
+                        ForEach(0..<paragraph.sentences.count, id: \.self) { index in
+                            let sentence = paragraph.sentences[index]
                             SentenceView(
                                 sentence: sentence,
                                 index: index,
@@ -143,8 +144,8 @@ private struct SentenceView: View {
             // for characters to allow tapping individually while preserving layout.
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 2) {
-                    let chars = Array(sentence.zh).map { String($0) }
-                    let pinyins = sentence.py.components(separatedBy: .whitespaces)
+                    let chars = sentence.zh.map { String($0) }
+                    let pinyins = sentence.py.split(separator: " ").map { String($0) }
                     
                     ForEach(0..<chars.count, id: \.self) { i in
                         VStack(spacing: 2) {

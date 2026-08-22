@@ -25,7 +25,7 @@ public struct FlashcardView: View {
                 .stroke(AppTheme.cardBorder, lineWidth: 2)
         )
         .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
-        .rotation3DEffect(.degrees(isFlipped ? 180 : 0), axis: (x: 0.0, y: 1.0, z: 0.0))
+        .rotation3DEffect(.degrees(isFlipped ? 180.0 : 0.0), axis: (x: 0.0, y: 1.0, z: 0.0))
     }
 
     private var frontView: some View {
@@ -112,6 +112,6 @@ public struct FlashcardView: View {
 
             Spacer()
         }
-        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+        .rotation3DEffect(.degrees(180.0), axis: (x: 0.0, y: 1.0, z: 0.0))
     }
 }

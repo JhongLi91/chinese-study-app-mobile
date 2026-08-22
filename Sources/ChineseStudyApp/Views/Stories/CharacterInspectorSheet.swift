@@ -10,7 +10,7 @@ public struct CharacterInspectorSheet: View {
     }
 
     public var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 if let char = studyData.allCharacters.first(where: { $0.character == characterText }) {
                     VStack(spacing: 24) {
