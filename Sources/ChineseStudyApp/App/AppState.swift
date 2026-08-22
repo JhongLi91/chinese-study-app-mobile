@@ -36,9 +36,20 @@ public final class AppState: ObservableObject {
     @Published public var speechRate: Double = 1.0
     @Published public var autoPlayAudioOnFlip: Bool = false
     
-    @AppStorage("isDarkMode") public var isDarkMode: Bool = true
+    @Published public var isDarkMode: Bool {
+        didSet {
+            UserDefaults.standard.set(isDarkMode, forKey: "isDarkMode")
+        }
+    }
 
-    public init() {}
+    public init() {
+        if UserDefaults.standard.object(forKey: "isDarkMode") != nil {
+            self.isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+        } else {
+            self.isDarkMode = true
+            UserDefaults.standard.set(true, forKey: "isDarkMode")
+        }
+    }
 
     public func navigateToLessonFlashcards(lessonNumber: Int) {
         self.activeLessonNumber = lessonNumber

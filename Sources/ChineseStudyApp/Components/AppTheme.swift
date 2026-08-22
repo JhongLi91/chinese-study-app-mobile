@@ -54,33 +54,41 @@ public struct AppTheme {
 
     // MARK: - UI Surfaces & Badges
     
+    /// Resolved dark-mode colors. Each color pair is pre-defined so the only
+    /// per-access cost is the single Bool branch – no cross-actor hop.
+    private static let cardBackgroundDark = Color(red: 30.0 / 255.0, green: 41.0 / 255.0, blue: 59.0 / 255.0)
+    private static let cardBackgroundLight = Color(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0)
+    private static let cardBorderDark = Color(red: 51.0 / 255.0, green: 65.0 / 255.0, blue: 85.0 / 255.0)
+    private static let cardBorderLight = Color(red: 226.0 / 255.0, green: 232.0 / 255.0, blue: 240.0 / 255.0)
+    private static let surfaceBackgroundDark = Color(red: 15.0 / 255.0, green: 23.0 / 255.0, blue: 42.0 / 255.0)
+    private static let surfaceBackgroundLight = Color(red: 248.0 / 255.0, green: 250.0 / 255.0, blue: 252.0 / 255.0)
+    private static let textSecondaryDark = Color(red: 148.0 / 255.0, green: 163.0 / 255.0, blue: 184.0 / 255.0)
+    private static let textSecondaryLight = Color(red: 100.0 / 255.0, green: 116.0 / 255.0, blue: 139.0 / 255.0)
+    private static let textPrimaryDark = Color.white
+    private static let textPrimaryLight = Color(red: 15.0 / 255.0, green: 23.0 / 255.0, blue: 42.0 / 255.0)
+
     private static var isDark: Bool {
         AppState.shared.isDarkMode
     }
 
     /// Card background container fill
     public static var cardBackground: Color {
-        isDark ? Color(red: 30.0 / 255.0, green: 41.0 / 255.0, blue: 59.0 / 255.0)
-               : Color(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0)
+        isDark ? cardBackgroundDark : cardBackgroundLight
     }
     
     public static var cardBorder: Color {
-        isDark ? Color(red: 51.0 / 255.0, green: 65.0 / 255.0, blue: 85.0 / 255.0)
-               : Color(red: 226.0 / 255.0, green: 232.0 / 255.0, blue: 240.0 / 255.0)
+        isDark ? cardBorderDark : cardBorderLight
     }
     
     public static var surfaceBackground: Color {
-        isDark ? Color(red: 15.0 / 255.0, green: 23.0 / 255.0, blue: 42.0 / 255.0)
-               : Color(red: 248.0 / 255.0, green: 250.0 / 255.0, blue: 252.0 / 255.0)
+        isDark ? surfaceBackgroundDark : surfaceBackgroundLight
     }
     
     public static var textPrimary: Color {
-        isDark ? Color.white
-               : Color(red: 15.0 / 255.0, green: 23.0 / 255.0, blue: 42.0 / 255.0)
+        isDark ? textPrimaryDark : textPrimaryLight
     }
     
     public static var textSecondary: Color {
-        isDark ? Color(red: 148.0 / 255.0, green: 163.0 / 255.0, blue: 184.0 / 255.0)
-               : Color(red: 100.0 / 255.0, green: 116.0 / 255.0, blue: 139.0 / 255.0)
+        isDark ? textSecondaryDark : textSecondaryLight
     }
 }

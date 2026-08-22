@@ -51,8 +51,13 @@ public struct DictionarySearchView: View {
             .padding(.bottom, 8)
 
             List(studyData.filteredCharacters) { char in
-                NavigationLink(destination: CharacterDetailView(character: char)) {
+                NavigationLink(value: char.frequencyRank) {
                     CharacterRowView(character: char)
+                }
+            }
+            .navigationDestination(for: Int.self) { rank in
+                if let char = studyData.allCharacters.first(where: { $0.frequencyRank == rank }) {
+                    CharacterDetailView(character: char)
                 }
             }
             .listStyle(.plain)

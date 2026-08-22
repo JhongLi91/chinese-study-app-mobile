@@ -12,7 +12,7 @@ public struct CharacterInspectorSheet: View {
     public var body: some View {
         NavigationStack {
             VStack {
-                if let char = studyData.allCharacters.first(where: { $0.character == characterText }) {
+                if let char = ProgressRepository.shared.getCharacter(glyph: characterText) {
                     VStack(spacing: 24) {
                         Text(char.character)
                             .font(.system(size: 80, weight: .bold))
