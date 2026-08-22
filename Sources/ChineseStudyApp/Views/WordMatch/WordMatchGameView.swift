@@ -4,6 +4,16 @@ public struct WordMatchGameView: View {
     @StateObject private var gameViewModel = WordMatchViewModel.shared
     @EnvironmentObject var appState: AppState
 
+    @State private var selectedTab: Int = 0
+    
+    // Custom Range state
+    @State private var rangeStart: String = "1"
+    @State private var rangeEnd: String = "100"
+    
+    // Studied Words state
+    @State private var includeLearned: Bool = true
+    @State private var includeInProgress: Bool = true
+
     public init() {}
 
     private var columns: [GridItem] {
@@ -11,17 +21,65 @@ public struct WordMatchGameView: View {
     }
 
     public var body: some View {
-        VStack {
-            // Header stats
-            HStack {
-                VStack(alignment: .leading) {
-                    Text("Lesson \(appState.activeLessonNumber)")
+        VStack(spacing: 0) {
+            // Mode Selector
+            Picker("Game Mode", selection: $selectedTab) {
+                Text("Lesson").tag(0)
+                Text("Custom Range").tag(1)
+                Text("Studied Words").tag(2)
+            }
+            .pickerStyle(.segmented)
+            .padding()
+            .background(AppTheme.surfaceBackground)
+            
+            // Contextual Controls based on mode
+            VStack {
+                if selectedTab == 0 {
+                    Text("Current Lesson: \(appState.activeLessonNumber)")
                         .font(.headline)
                         .foregroundColor(AppTheme.textSecondary)
-                    Text("Word Match")
-                        .font(.title2.bold())
-                        .foregroundColor(AppTheme.textPrimary)
+                } else if selectedTab == 1 {
+                    HStack {
+                        Text("From Rank:")
+                        TextField("Start", text: $rangeStart)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .frame(width: 60)
+                        
+                        Text("To:")
+                        TextField("End", text: $rangeEnd)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .frame(width: 60)
+                    }
+                    .font(.subheadline)
+                } else if selectedTab == 2 {
+                    HStack(spacing: 16) {
+                        Toggle("Learned", isOn: $includeLearned)
+                            .font(.caption)
+                        Toggle("In-Progress", isOn: $includeInProgress)
+                            .font(.caption)
+                    }
                 }
+                
+                Button("Update Game Board") {
+                    startSelectedGameMode()
+                }
+                .font(.caption.bold())
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(AppTheme.statusInProgress)
+                .foregroundColor(.white)
+                .cornerRadius(8)
+                .padding(.top, 8)
+            }
+            .padding(.bottom, 12)
+            .frame(maxWidth: .infinity)
+            .background(AppTheme.surfaceBackground)
+
+            // Header stats
+            HStack {
+                Text("Word Match")
+                    .font(.title2.bold())
+                    .foregroundColor(AppTheme.textPrimary)
                 
                 Spacer()
                 
@@ -38,9 +96,15 @@ public struct WordMatchGameView: View {
                     }
                 }
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.top, 8)
 
-            if gameViewModel.isGameComplete {
+            if gameViewModel.cards.isEmpty {
+                Spacer()
+                Text("Not enough words to match in this selection.")
+                    .foregroundColor(AppTheme.textSecondary)
+                Spacer()
+            } else if gameViewModel.isGameComplete {
                 Spacer()
                 
                 VStack(spacing: 24) {
@@ -59,7 +123,7 @@ public struct WordMatchGameView: View {
                         .padding(.horizontal)
                     
                     Button {
-                        gameViewModel.startNewGame(lessonNumber: appState.activeLessonNumber)
+                        startSelectedGameMode()
                     } label: {
                         Text("Play Again")
                             .font(.headline)
@@ -88,11 +152,28 @@ public struct WordMatchGameView: View {
         .background(AppTheme.surfaceBackground.ignoresSafeArea())
         .onAppear {
             if gameViewModel.cards.isEmpty {
-                gameViewModel.startNewGame(lessonNumber: appState.activeLessonNumber)
+                startSelectedGameMode()
             }
         }
         .onChange(of: appState.activeLessonNumber) { newLesson in
-            gameViewModel.startNewGame(lessonNumber: newLesson)
+            if selectedTab == 0 {
+                gameViewModel.startNewGame(mode: .lesson(newLesson))
+            }
+        }
+    }
+    
+    private func startSelectedGameMode() {
+        switch selectedTab {
+        case 0:
+            gameViewModel.startNewGame(mode: .lesson(appState.activeLessonNumber))
+        case 1:
+            let start = Int(rangeStart) ?? 1
+            let end = Int(rangeEnd) ?? 100
+            gameViewModel.startNewGame(mode: .customRange(start: start, end: end))
+        case 2:
+            gameViewModel.startNewGame(mode: .studiedWords(includeLearned: includeLearned, includeInProgress: includeInProgress))
+        default:
+            break
         }
     }
 }

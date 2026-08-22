@@ -16,7 +16,7 @@ Each task is structured as a self-contained work package designed for direct ass
 │  Phase 2: Data Models & SQLite Storage Engine              [x] 100% (3/3)  │
 │  Phase 3: Core Mobile Services (Audio, Haptics, Backup)    [x] 100% (3/3)  │
 │  Phase 4: Domain ViewModels & State Management             [x] 100% (4/4)  │
-│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 80% (8/10)  │
+│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 90% (9/10)  │
 │  Phase 6: Android Build & Dual-Platform Verification       [ ] 0% (0/2)    │
 │  Phase 7: Direct Device Deployment & APK Sideloading       [ ] 0% (0/3)    │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -190,7 +190,7 @@ Each task is structured as a self-contained work package designed for direct ass
   * **Acceptance Criteria:** Backups export and import smoothly via system share sheets.
   * **Delegation Target:** UI Agent.
 
-- [ ] **TASK-509: Word Match Game Refinements (Web Sync)**
+- [x] **TASK-509: Word Match Game Refinements (Web Sync)**
   * **Objective:** Align the mobile Word Match game with the latest web updates: remove the 'HSK Core' and 'All 3,000 Hanzi' tabs, and add a 'Custom Range' tab with empty string support for fluid typing. In the 'My Studied Words' tab, add toggles for 'Include Learned Words' and 'Include In-Progress Words'.
   * **Key Deliverables:** `Views/WordMatch/WordMatchGameView.swift`, `ViewModels/WordMatchViewModel.swift`.
   * **Dependencies:** TASK-404, TASK-505.

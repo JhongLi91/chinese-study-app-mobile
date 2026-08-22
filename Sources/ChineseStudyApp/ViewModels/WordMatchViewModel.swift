@@ -33,13 +33,21 @@ public final class WordMatchViewModel: ObservableObject {
         self.repository = repository
         self.audioService = audioService
         self.hapticService = hapticService
-        startNewGame(lessonNumber: 1)
+        startNewGame(mode: .lesson(1))
     }
+
+    public enum GameMode {
+        case lesson(Int)
+        case customRange(start: Int, end: Int)
+        case studiedWords(includeLearned: Bool, includeInProgress: Bool)
+    }
+    
+    @Published public var currentGameMode: GameMode = .lesson(1)
 
     // MARK: - Game Setup
 
-    public func startNewGame(lessonNumber: Int = 1) {
-        self.activeLessonNumber = lessonNumber
+    public func startNewGame(mode: GameMode) {
+        self.currentGameMode = mode
         self.selectedFirstCardId = nil
         self.selectedSecondCardId = nil
         self.matchedPairCount = 0
@@ -48,12 +56,31 @@ public final class WordMatchViewModel: ObservableObject {
         self.isGameComplete = false
         self.isProcessingMismatch = false
 
-        let lessonChars = repository.getCharacters(forLesson: lessonNumber)
-        guard !lessonChars.isEmpty else { return }
+        let pool: [HanziCharacter]
+        switch mode {
+        case .lesson(let num):
+            self.activeLessonNumber = num
+            pool = repository.getCharacters(forLesson: num)
+        case .customRange(let start, let end):
+            let all = repository.getAllCharacters()
+            pool = all.filter { $0.frequencyRank >= start && $0.frequencyRank <= end }
+        case .studiedWords(let incLearned, let incInProgress):
+            let all = repository.getAllCharacters()
+            pool = all.filter { char in
+                if incLearned && char.status == .learned { return true }
+                if incInProgress && char.status == .inProgress { return true }
+                return false
+            }
+        }
+
+        guard !pool.isEmpty else {
+            self.cards = []
+            return
+        }
 
         // Pick 4 characters for an 8-card grid
-        let sampleSize = min(4, lessonChars.count)
-        let sampled = Array(lessonChars.shuffled().prefix(sampleSize))
+        let sampleSize = min(4, pool.count)
+        let sampled = Array(pool.shuffled().prefix(sampleSize))
         self.totalPairs = sampled.count
 
         var deck: [MatchCard] = []
