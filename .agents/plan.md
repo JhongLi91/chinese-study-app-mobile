@@ -16,7 +16,7 @@ Each task is structured as a self-contained work package designed for direct ass
 │  Phase 2: Data Models & SQLite Storage Engine              [x] 100% (3/3)  │
 │  Phase 3: Core Mobile Services (Audio, Haptics, Backup)    [x] 100% (3/3)  │
 │  Phase 4: Domain ViewModels & State Management             [x] 100% (4/4)  │
-│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 70% (7/10)  │
+│  Phase 5: SwiftUI Presentation Views & Gestures            [ ] 80% (8/10)  │
 │  Phase 6: Android Build & Dual-Platform Verification       [ ] 0% (0/2)    │
 │  Phase 7: Direct Device Deployment & APK Sideloading       [ ] 0% (0/3)    │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -183,7 +183,7 @@ Each task is structured as a self-contained work package designed for direct ass
   * **Acceptance Criteria:** Shuffles cards randomly; presents score summary and review breakdown at end of quiz.
   * **Delegation Target:** UI Agent.
 
-- [ ] **TASK-508: Settings & Backup View**
+- [x] **TASK-508: Settings & Backup View**
   * **Objective:** Create the Settings view for audio speed adjustments, sound effects toggle, data backup/restore, and HSK curriculum information.
   * **Key Deliverables:** `Views/Settings/SettingsView.swift`, `Views/Settings/DatabaseBackupView.swift`.
   * **Dependencies:** TASK-303, TASK-401.

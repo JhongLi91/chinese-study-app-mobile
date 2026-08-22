@@ -54,7 +54,7 @@ public struct MainTabView: View {
             .tag(AppTab.review)
 
             NavigationStack {
-                Text("Settings View")
+                SettingsView()
                     .navigationTitle(AppTab.settings.rawValue)
             }
             .tabItem {
