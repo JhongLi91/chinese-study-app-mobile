@@ -13,14 +13,14 @@ public enum AppTab: String, CaseIterable, Identifiable, Sendable {
 
     public var id: String { rawValue }
 
-    public var systemImage: String {
+    public var emoji: String {
         switch self {
-        case .lessons: return "book"
-        case .flashcards: return "square.stack.3d.up"
-        case .stories: return "doc.text"
-        case .match: return "gamecontroller"
-        case .review: return "magnifyingglass"
-        case .settings: return "gear"
+        case .lessons: return "📚"
+        case .flashcards: return "🗂️"
+        case .stories: return "📖"
+        case .match: return "🎮"
+        case .review: return "🔍"
+        case .settings: return "⚙️"
         }
     }
 }

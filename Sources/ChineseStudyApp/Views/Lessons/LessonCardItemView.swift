@@ -32,7 +32,7 @@ public struct LessonCardItemView: View {
                     .frame(width: 44, height: 44)
                     
                     if lesson.isFullyLearned {
-                        Image(systemName: "checkmark")
+                        Text("✔️")
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(AppTheme.statusLearned)
                     } else {
@@ -65,15 +65,15 @@ private struct StatusBadge: View {
     
     var icon: String {
         switch status {
-        case .learned: return "checkmark.circle.fill"
-        case .inProgress: return "clock.fill"
-        case .new: return "sparkles"
+        case .learned: return "✅"
+        case .inProgress: return "⏳"
+        case .new: return "✨"
         }
     }
     
     var body: some View {
         HStack(spacing: 4) {
-            Image(systemName: icon)
+            Text(icon)
                 .font(.system(size: 10))
             Text("\(count)")
                 .font(.caption2.bold())

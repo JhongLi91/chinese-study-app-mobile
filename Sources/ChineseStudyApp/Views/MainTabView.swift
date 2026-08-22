@@ -13,7 +13,7 @@ public struct MainTabView: View {
                     .navigationTitle(AppTab.lessons.rawValue)
             }
             .tabItem {
-                Label(AppTab.lessons.rawValue, systemImage: AppTab.lessons.systemImage)
+                Text("\(AppTab.lessons.emoji) \(AppTab.lessons.rawValue)")
             }
             .tag(AppTab.lessons)
 
@@ -22,7 +22,7 @@ public struct MainTabView: View {
                     .navigationTitle("Review")
             }
             .tabItem {
-                Label(AppTab.flashcards.rawValue, systemImage: AppTab.flashcards.systemImage)
+                Text("\(AppTab.flashcards.emoji) \(AppTab.flashcards.rawValue)")
             }
             .tag(AppTab.flashcards)
 
@@ -31,7 +31,7 @@ public struct MainTabView: View {
                     .navigationTitle(AppTab.stories.rawValue)
             }
             .tabItem {
-                Label(AppTab.stories.rawValue, systemImage: AppTab.stories.systemImage)
+                Text("\(AppTab.stories.emoji) \(AppTab.stories.rawValue)")
             }
             .tag(AppTab.stories)
 
@@ -40,7 +40,7 @@ public struct MainTabView: View {
                     .navigationTitle(AppTab.match.rawValue)
             }
             .tabItem {
-                Label(AppTab.match.rawValue, systemImage: AppTab.match.systemImage)
+                Text("\(AppTab.match.emoji) \(AppTab.match.rawValue)")
             }
             .tag(AppTab.match)
 
@@ -49,7 +49,7 @@ public struct MainTabView: View {
                     .navigationTitle("Dictionary")
             }
             .tabItem {
-                Label(AppTab.review.rawValue, systemImage: AppTab.review.systemImage)
+                Text("\(AppTab.review.emoji) \(AppTab.review.rawValue)")
             }
             .tag(AppTab.review)
 
@@ -58,7 +58,7 @@ public struct MainTabView: View {
                     .navigationTitle(AppTab.settings.rawValue)
             }
             .tabItem {
-                Label(AppTab.settings.rawValue, systemImage: AppTab.settings.systemImage)
+                Text("\(AppTab.settings.emoji) \(AppTab.settings.rawValue)")
             }
             .tag(AppTab.settings)
         }
