@@ -3,6 +3,7 @@ import SwiftUI
 public struct DictionarySearchView: View {
     @EnvironmentObject var studyData: StudyDataViewModel
     @FocusState private var isSearchFocused: Bool
+    @State private var showQuizModal = false
 
     public init() {}
 
@@ -49,7 +50,6 @@ public struct DictionarySearchView: View {
             }
             .padding(.bottom, 8)
 
-            // Results List
             List(studyData.filteredCharacters) { char in
                 NavigationLink(destination: CharacterDetailView(character: char)) {
                     CharacterRowView(character: char)
@@ -59,6 +59,19 @@ public struct DictionarySearchView: View {
             .background(AppTheme.surfaceBackground)
         }
         .background(AppTheme.surfaceBackground.ignoresSafeArea())
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    showQuizModal = true
+                } label: {
+                    Image(systemName: "play.rectangle.on.rectangle")
+                }
+                .disabled(studyData.filteredCharacters.isEmpty)
+            }
+        }
+        .sheet(isPresented: $showQuizModal) {
+            QuickQuizModalView(sourceCharacters: studyData.filteredCharacters)
+        }
         .onDisappear {
             studyData.searchQuery = ""
         }
