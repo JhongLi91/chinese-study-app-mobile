@@ -239,11 +239,11 @@ public final class StudyDataViewModel: ObservableObject {
     private func refreshLessonStatsFromMemory() {
         var lessonStats: [Int: (total: Int, learned: Int, inProgress: Int)] = [:]
         for char in _allCharacters {
-            var stats = lessonStats[char.lessonNumber] ?? (total: 0, learned: 0, inProgress: 0)
-            stats.total += 1
-            if char.status == .learned { stats.learned += 1 }
-            if char.status == .inProgress { stats.inProgress += 1 }
-            lessonStats[char.lessonNumber] = stats
+            let current = lessonStats[char.lessonNumber] ?? (total: 0, learned: 0, inProgress: 0)
+            let newTotal = current.total + 1
+            let newLearned = current.learned + (char.status == .learned ? 1 : 0)
+            let newInProgress = current.inProgress + (char.status == .inProgress ? 1 : 0)
+            lessonStats[char.lessonNumber] = (total: newTotal, learned: newLearned, inProgress: newInProgress)
         }
         self.lessons = lessonStats.keys.sorted().map { lessonNum in
             let stats = lessonStats[lessonNum]!
