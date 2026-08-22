@@ -9,7 +9,7 @@ public struct ExampleSentenceSheet: View {
     }
 
     public var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(alignment: .leading, spacing: 24) {
                 if let exampleZh = character.exampleZh,
                    let examplePy = character.examplePy,

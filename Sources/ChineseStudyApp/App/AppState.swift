@@ -15,12 +15,12 @@ public enum AppTab: String, CaseIterable, Identifiable, Sendable {
 
     public var systemImage: String {
         switch self {
-        case .lessons: return "book.closed.fill"
-        case .flashcards: return "rectangle.stack.fill"
-        case .stories: return "text.book.closed.fill"
-        case .match: return "gamecontroller.fill"
-        case .review: return "list.bullet.rectangle.portrait.fill"
-        case .settings: return "gearshape.fill"
+        case .lessons: return "book"
+        case .flashcards: return "square.stack.3d.up"
+        case .stories: return "doc.text"
+        case .match: return "gamecontroller"
+        case .review: return "magnifyingglass"
+        case .settings: return "gear"
         }
     }
 }

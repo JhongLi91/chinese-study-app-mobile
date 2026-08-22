@@ -42,12 +42,12 @@ public struct WordMatchGameView: View {
                     HStack {
                         Text("From Rank:")
                         TextField("Start", text: $rangeStart)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .textFieldStyle(.roundedBorder)
                             .frame(width: 60)
                         
                         Text("To:")
                         TextField("End", text: $rangeEnd)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .textFieldStyle(.roundedBorder)
                             .frame(width: 60)
                     }
                     .font(.subheadline)

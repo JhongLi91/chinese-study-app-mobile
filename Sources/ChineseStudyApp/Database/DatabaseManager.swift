@@ -30,7 +30,14 @@ public final class DatabaseManager: @unchecked Sendable {
             // Copy pre-seeded database if it doesn't exist in app support
             if !fileManager.fileExists(atPath: destinationURL.path) {
                 if let bundleURL = Bundle.module.url(forResource: "hanzi_db", withExtension: "sqlite") {
-                    try? fileManager.copyItem(at: bundleURL, to: destinationURL)
+                    do {
+                        let data = try Data(contentsOf: bundleURL)
+                        try data.write(to: destinationURL)
+                    } catch {
+                        print("Failed to copy database: \(error)")
+                    }
+                } else {
+                    print("Could not find hanzi_db.sqlite in bundle.")
                 }
             }
 

@@ -16,7 +16,7 @@ public struct DictionarySearchView: View {
                 
                 TextField("Search Hanzi, Pinyin, or English", text: $studyData.searchQuery)
                     .focused($isSearchFocused)
-                    .disableAutocorrection(true)
+                    .autocorrectionDisabled(true)
                 
                 if !studyData.searchQuery.isEmpty {
                     Button {

@@ -28,7 +28,7 @@ public struct QuickQuizModalView: View {
     }
 
     public var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 switch quizState {
                 case .setup:
