@@ -29,11 +29,11 @@ public struct SettingsView: View {
                                 .foregroundColor(AppTheme.textPrimary)
                             
                             HStack {
-                                Image(systemName: "tortoise")
+                                Image(systemName: "minus")
                                     .foregroundColor(AppTheme.textSecondary)
                                 Slider(value: $appState.speechRate, in: 0.5...1.5, step: 0.25)
                                     .tint(AppTheme.primary)
-                                Image(systemName: "hare")
+                                Image(systemName: "plus")
                                     .foregroundColor(AppTheme.textSecondary)
                             }
                         }

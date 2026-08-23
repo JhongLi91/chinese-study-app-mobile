@@ -76,7 +76,7 @@ public struct DatabaseBackupView: View {
                     } else if let url = exportURL {
                         ShareLink(item: url) {
                             HStack {
-                                Image(systemName: "square.and.arrow.up")
+                                Image(systemName: "arrow.up.doc")
                                 Text("Share Backup File")
                             }
                             .font(.headline)
@@ -87,12 +87,12 @@ public struct DatabaseBackupView: View {
                             .cornerRadius(6)
                         }
                     } else {
-                        ModernButton(title: "Generate JSON Backup", systemImage: "doc.zipper", variant: .default, size: .lg) {
+                        ModernButton(title: "Generate JSON Backup", systemImage: "doc.fill", variant: .default, size: .lg) {
                             generateBackup()
                         }
                     }
                     
-                    ModernButton(title: "Restore from Backup", systemImage: "square.and.arrow.down", variant: .outline, size: .lg) {
+                    ModernButton(title: "Restore from Backup", systemImage: "arrow.down.doc", variant: .outline, size: .lg) {
                         #if !SKIP
                         isShowingImporter = true
                         #else

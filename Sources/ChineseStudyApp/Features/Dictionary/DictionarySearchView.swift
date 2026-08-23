@@ -38,7 +38,8 @@ public struct DictionarySearchView: View {
             )
             .padding()
 
-            // Filter Pills
+            // Filter Pills handled by Sidebar Navigation now
+            /*
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     FilterPill(title: "All", isSelected: studyData.selectedFilterStatus == nil) {
@@ -54,6 +55,7 @@ public struct DictionarySearchView: View {
                 .padding(.horizontal)
             }
             .padding(.bottom, 8)
+            */
 
             ScrollView {
                 LazyVStack(spacing: 0) {
@@ -86,7 +88,7 @@ public struct DictionarySearchView: View {
                 Button {
                     showQuizModal = true
                 } label: {
-                    Image(systemName: "play.rectangle.on.rectangle")
+                    Image(systemName: "play.circle.fill")
                 }
                 .disabled(studyData.filteredCharacters.isEmpty)
             }
@@ -129,7 +131,7 @@ private struct CharacterRowView: View {
         HStack(spacing: 16) {
             Text(character.character)
                 .font(.system(size: 32, weight: .bold))
-                .foregroundColor(AppTheme.color(forTone: character.toneNumber))
+
                 .frame(width: 50)
             
             VStack(alignment: .leading, spacing: 4) {

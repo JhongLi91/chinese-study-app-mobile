@@ -40,7 +40,7 @@ public struct FlashcardStudyView: View {
                             studyData.markCurrentCardInProgress()
                         }
                     } label: {
-                        Image(systemName: "clock.arrow.circlepath")
+                        Image(systemName: "clock.fill")
                             .font(.system(size: 24, weight: .bold))
                             .foregroundColor(AppTheme.statusInProgress)
                             .frame(width: 64, height: 64)
@@ -52,7 +52,7 @@ public struct FlashcardStudyView: View {
                     Button {
                         showExampleSheet = true
                     } label: {
-                        Image(systemName: "text.quote")
+                        Image(systemName: "text.alignleft")
                             .font(.system(size: 20, weight: .bold))
                             .foregroundColor(AppTheme.textPrimary)
                             .frame(width: 56, height: 56)
@@ -81,7 +81,7 @@ public struct FlashcardStudyView: View {
 
             } else {
                 VStack(spacing: 16) {
-                    Image(systemName: "party.popper.fill")
+                    Image(systemName: "sparkles")
                         .font(.system(size: 64))
                         .foregroundColor(AppTheme.statusLearned)
                     Text("Lesson Complete!")

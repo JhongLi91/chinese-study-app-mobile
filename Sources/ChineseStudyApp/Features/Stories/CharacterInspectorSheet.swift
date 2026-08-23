@@ -16,12 +16,12 @@ public struct CharacterInspectorSheet: View {
                     VStack(spacing: 24) {
                         Text(char.character)
                             .font(.system(size: 80, weight: .bold))
-                            .foregroundColor(AppTheme.color(forTone: char.toneNumber))
+
 
                         VStack(spacing: 8) {
                             Text(char.pinyin)
                                 .font(.title)
-                                .foregroundColor(AppTheme.color(forTone: char.toneNumber))
+    
                             Text(char.definition)
                                 .font(.title3)
                                 .multilineTextAlignment(.center)

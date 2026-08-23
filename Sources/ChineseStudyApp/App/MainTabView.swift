@@ -1,66 +1,86 @@
 import SwiftUI
 
-/// Main content root view displaying the tab view.
+/// Main content root view displaying the sidebar and main navigation.
 public struct MainTabView: View {
     @EnvironmentObject var appState: AppState
+    @State private var isSidebarOpen = false
 
     public init() {}
 
     public var body: some View {
-        TabView(selection: $appState.selectedTab) {
-            NavigationStack {
-                LessonsGridView()
-                    .navigationTitle(AppTab.lessons.rawValue)
-            }
-            .tabItem {
-                Text("\(AppTab.lessons.emoji) \(AppTab.lessons.rawValue)")
-            }
-            .tag(AppTab.lessons)
+        ZStack(alignment: .leading) {
+            // Main content
+            mainContent
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            NavigationStack {
-                FlashcardStudyView()
-                    .navigationTitle("Review")
+            // Dimmed background for sidebar
+            if isSidebarOpen {
+                Color.black.opacity(0.5)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        withAnimation {
+                            isSidebarOpen = false
+                        }
+                    }
             }
-            .tabItem {
-                Text("\(AppTab.flashcards.emoji) \(AppTab.flashcards.rawValue)")
-            }
-            .tag(AppTab.flashcards)
 
-            NavigationStack {
-                StoryCatalogView()
-                    .navigationTitle(AppTab.stories.rawValue)
+            // Sidebar
+            if isSidebarOpen {
+                SidebarView(isSidebarOpen: $isSidebarOpen)
+                    .frame(width: 280)
+                    .transition(.move(edge: .leading))
+                    .zIndex(2)
             }
-            .tabItem {
-                Text("\(AppTab.stories.emoji) \(AppTab.stories.rawValue)")
+        }
+    }
+    
+    @ViewBuilder
+    private var mainContent: some View {
+        NavigationStack {
+            Group {
+                switch appState.selectedTab {
+                case .lessons:
+                    LessonsGridView()
+                        .navigationTitle(AppTab.lessons.rawValue)
+                case .learned:
+                    DictionarySearchView()
+                        .navigationTitle(AppTab.learned.rawValue)
+                        .onAppear { StudyDataViewModel.shared.selectedFilterStatus = .learned }
+                case .inProgress:
+                    DictionarySearchView()
+                        .navigationTitle(AppTab.inProgress.rawValue)
+                        .onAppear { StudyDataViewModel.shared.selectedFilterStatus = .inProgress }
+                case .allHanzi:
+                    DictionarySearchView()
+                        .navigationTitle(AppTab.allHanzi.rawValue)
+                        .onAppear { StudyDataViewModel.shared.selectedFilterStatus = nil }
+                case .flashcards:
+                    FlashcardStudyView()
+                        .navigationTitle("Review")
+                case .stories:
+                    StoryCatalogView()
+                        .navigationTitle(AppTab.stories.rawValue)
+                case .match:
+                    WordMatchGameView()
+                        .navigationTitle(AppTab.match.rawValue)
+                case .settings:
+                    SettingsView()
+                        .navigationTitle(AppTab.settings.rawValue)
+                }
             }
-            .tag(AppTab.stories)
-
-            NavigationStack {
-                WordMatchGameView()
-                    .navigationTitle(AppTab.match.rawValue)
+            .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    Button(action: {
+                        withAnimation {
+                            isSidebarOpen.toggle()
+                        }
+                    }) {
+                        Image(systemName: "line.3.horizontal")
+                            .font(.title2)
+                            .foregroundColor(.primary)
+                    }
+                }
             }
-            .tabItem {
-                Text("\(AppTab.match.emoji) \(AppTab.match.rawValue)")
-            }
-            .tag(AppTab.match)
-
-            NavigationStack {
-                DictionarySearchView()
-                    .navigationTitle("Dictionary")
-            }
-            .tabItem {
-                Text("\(AppTab.review.emoji) \(AppTab.review.rawValue)")
-            }
-            .tag(AppTab.review)
-
-            NavigationStack {
-                SettingsView()
-                    .navigationTitle(AppTab.settings.rawValue)
-            }
-            .tabItem {
-                Text("\(AppTab.settings.emoji) \(AppTab.settings.rawValue)")
-            }
-            .tag(AppTab.settings)
         }
     }
 }

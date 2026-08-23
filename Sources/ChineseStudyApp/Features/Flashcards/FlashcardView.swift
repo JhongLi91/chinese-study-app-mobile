@@ -43,7 +43,7 @@ public struct FlashcardView: View {
 
             Text(character.character)
                 .font(.system(size: 120, weight: .bold))
-                .foregroundColor(AppTheme.color(forTone: character.toneNumber))
+
 
             Spacer()
         }
@@ -60,7 +60,7 @@ public struct FlashcardView: View {
             VStack(spacing: 8) {
                 Text(character.pinyin)
                     .font(.largeTitle.bold())
-                    .foregroundColor(AppTheme.color(forTone: character.toneNumber))
+    
                 
                 Text(character.definition)
                     .font(.title2)

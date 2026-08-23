@@ -17,7 +17,7 @@ public enum StudyStatus: String, Codable, CaseIterable, Sendable {
     public var systemImage: String {
         switch self {
         case .new: return "sparkles"
-        case .inProgress: return "clock.arrow.circlepath"
+        case .inProgress: return "clock.fill"
         case .learned: return "checkmark.circle.fill"
         }
     }

@@ -4,23 +4,35 @@ import Combine
 
 /// Main navigation tabs available in the application.
 public enum AppTab: String, CaseIterable, Identifiable, Sendable {
-    case lessons = "Lessons"
-    case flashcards = "Flashcards"
-    case stories = "Stories"
-    case match = "Match"
-    case review = "Vocab"
+    case lessons = "Lessons Curriculum"
+    case learned = "Learned Words"
+    case inProgress = "In-Progress Words"
+    case allHanzi = "All 3,000 Hanzi"
+    
+    case stories = "Story Reader"
+    case match = "Word Match"
     case settings = "Settings"
+    case flashcards = "Flashcards"
 
     public var id: String { rawValue }
 
     public var emoji: String {
         switch self {
-        case .lessons: return "📚"
-        case .flashcards: return "🗂️"
-        case .stories: return "📖"
-        case .match: return "🎮"
-        case .review: return "🔍"
-        case .settings: return "⚙️"
+        case .lessons: return "book"
+        case .learned: return "checkmark.circle"
+        case .inProgress: return "clock"
+        case .allHanzi: return "square.stack.3d.up"
+        case .stories: return "text.book.closed"
+        case .match: return "bolt"
+        case .settings: return "gearshape"
+        case .flashcards: return "folder"
+        }
+    }
+    
+    public var isStudyPage: Bool {
+        switch self {
+        case .lessons, .learned, .inProgress, .allHanzi: return true
+        default: return false
         }
     }
 }

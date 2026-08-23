@@ -15,7 +15,7 @@ public struct CharacterDetailView: View {
                 VStack(spacing: 8) {
                     Text(character.character)
                         .font(.system(size: 100, weight: .bold))
-                        .foregroundColor(AppTheme.color(forTone: character.toneNumber))
+
                     
                     Text(character.pinyin)
                         .font(.largeTitle)
@@ -24,7 +24,7 @@ public struct CharacterDetailView: View {
                     Button {
                         AudioService.shared.speak(text: character.character, rate: AppState.shared.speechRate)
                     } label: {
-                        Image(systemName: "speaker.wave.2.fill")
+                        Image(systemName: "speaker.fill")
                             .font(.title2)
                             .foregroundColor(AppTheme.statusInProgress)
                             .padding()
@@ -87,7 +87,7 @@ public struct CharacterDetailView: View {
                                     Button {
                                         AudioService.shared.speak(text: assoc.word, rate: AppState.shared.speechRate)
                                     } label: {
-                                        Image(systemName: "speaker.wave.2")
+                                        Image(systemName: "speaker.fill")
                                             .foregroundColor(AppTheme.textSecondary)
                                     }
                                 }

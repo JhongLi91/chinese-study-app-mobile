@@ -26,7 +26,7 @@ public struct ExampleSentenceSheet: View {
                         
                         Text(examplePy)
                             .font(.title3)
-                            .foregroundColor(AppTheme.color(forTone: character.toneNumber))
+
                         
                         Text(exampleEn)
                             .font(.body)
@@ -40,7 +40,7 @@ public struct ExampleSentenceSheet: View {
                         AudioService.shared.speak(text: exampleZh, rate: AppState.shared.speechRate)
                     } label: {
                         HStack {
-                            Image(systemName: "speaker.wave.2.fill")
+                            Image(systemName: "speaker.fill")
                             Text("Play Audio")
                         }
                         .frame(maxWidth: .infinity)

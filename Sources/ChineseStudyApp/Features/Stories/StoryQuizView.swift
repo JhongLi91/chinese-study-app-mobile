@@ -15,7 +15,7 @@ public struct StoryQuizView: View {
                 if storyViewModel.isQuizSubmitted {
                     // Results View
                     VStack(spacing: 16) {
-                        Image(systemName: storyViewModel.quizScore == story.questions.count ? "star.fill" : "star.leadinghalf.filled")
+                        Image(systemName: storyViewModel.quizScore == story.questions.count ? "star.fill" : "star.fill")
                             .font(.system(size: 64))
                             .foregroundColor(AppTheme.statusLearned)
                         

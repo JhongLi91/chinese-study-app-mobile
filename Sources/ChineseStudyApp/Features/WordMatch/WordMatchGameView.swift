@@ -88,7 +88,7 @@ public struct WordMatchGameView: View {
                         .font(.caption)
                         .foregroundColor(AppTheme.textSecondary)
                     HStack(spacing: 4) {
-                        Image(systemName: "flame.fill")
+                        Image(systemName: "bolt.fill")
                             .foregroundColor(gameViewModel.streak >= 3 ? AppTheme.statusInProgress : AppTheme.cardBorder)
                         Text("\(gameViewModel.streak)")
                             .font(.title3.bold())
@@ -108,7 +108,7 @@ public struct WordMatchGameView: View {
                 Spacer()
                 
                 VStack(spacing: 24) {
-                    Image(systemName: "party.popper.fill")
+                    Image(systemName: "sparkles")
                         .font(.system(size: 80))
                         .foregroundColor(AppTheme.statusInProgress)
                     

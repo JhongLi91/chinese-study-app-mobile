@@ -12,7 +12,7 @@ public struct QuizResultsView: View {
             
             let accuracy = quizQueue.isEmpty ? 0 : Int((Double(correctCount) / Double(quizQueue.count)) * 100)
             
-            Image(systemName: accuracy >= 80 ? "star.fill" : (accuracy >= 50 ? "star.leadinghalf.filled" : "star"))
+            Image(systemName: accuracy >= 80 ? "star.fill" : (accuracy >= 50 ? "star.fill" : "star"))
                 .font(.system(size: 100))
                 .foregroundColor(accuracy >= 80 ? AppTheme.statusLearned : AppTheme.statusInProgress)
             

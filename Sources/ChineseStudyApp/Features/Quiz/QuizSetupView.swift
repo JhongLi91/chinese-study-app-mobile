@@ -9,7 +9,7 @@ public struct QuizSetupView: View {
     
     public var body: some View {
         VStack(spacing: 32) {
-            Image(systemName: "questionmark.square.dashed")
+            Image(systemName: "questionmark.circle")
                 .font(.system(size: 80))
                 .foregroundColor(AppTheme.statusInProgress)
             
