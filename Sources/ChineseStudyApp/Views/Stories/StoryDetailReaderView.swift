@@ -13,23 +13,7 @@ public struct StoryDetailReaderView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 32) {
                 // Header
-                VStack(alignment: .center, spacing: 8) {
-                    Text(story.titleZh)
-                        .font(.largeTitle.bold())
-                        .foregroundColor(AppTheme.textPrimary)
-                        .multilineTextAlignment(.center)
-                    
-                    Text(story.titlePy)
-                        .font(.title3)
-                        .foregroundColor(AppTheme.textSecondary)
-                    
-                    Text(story.titleEn)
-                        .font(.headline)
-                        .foregroundColor(AppTheme.textPrimary)
-                        .multilineTextAlignment(.center)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.bottom, 16)
+                StoryHeaderView(story: story)
 
                 // Paragraphs
                 ForEach(story.paragraphs) { paragraph in
@@ -128,55 +112,4 @@ extension Binding where Value == String? {
 struct StringWrapper: Identifiable {
     let id = UUID()
     let value: String
-}
-
-private struct SentenceView: View {
-    let sentence: StorySentence
-    let index: Int
-    let isActive: Bool
-    let onCharacterTap: (String) -> Void
-    
-    @StateObject private var storyViewModel = StoryViewModel.shared
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            // Because SwiftUI wrapping is limited, we use a simple horizontal scroll 
-            // for characters to allow tapping individually while preserving layout.
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 2) {
-                    let chars = sentence.zh.map { String($0) }
-                    let pinyins = sentence.py.split(separator: " ").map { String($0) }
-                    
-                    ForEach(0..<chars.count, id: \.self) { i in
-                        VStack(spacing: 2) {
-                            if storyViewModel.pinyinMode == .ruby {
-                                Text(i < pinyins.count ? pinyins[i] : " ")
-                                    .font(.system(size: 10))
-                                    .foregroundColor(AppTheme.textSecondary)
-                            }
-                            
-                            Text(chars[i])
-                                .font(.title2)
-                                .foregroundColor(isActive ? AppTheme.statusInProgress : AppTheme.textPrimary)
-                        }
-                        .onTapGesture {
-                            onCharacterTap(chars[i])
-                        }
-                    }
-                }
-            }
-            
-            if storyViewModel.pinyinMode == .inline {
-                Text(sentence.py)
-                    .font(.subheadline)
-                    .foregroundColor(AppTheme.textSecondary)
-            }
-        }
-        .padding(8)
-        .background(isActive ? AppTheme.statusInProgress.opacity(0.1) : Color.clear)
-        .cornerRadius(8)
-        .onTapGesture {
-            storyViewModel.playSentenceAudio(sentence: sentence, index: index)
-        }
-    }
 }
