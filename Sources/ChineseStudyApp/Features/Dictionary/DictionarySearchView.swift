@@ -50,17 +50,26 @@ public struct DictionarySearchView: View {
             }
             .padding(.bottom, 8)
 
-            List(studyData.filteredCharacters) { char in
-                NavigationLink(value: char.frequencyRank) {
-                    CharacterRowView(character: char)
+            ScrollView {
+                LazyVStack(spacing: 0) {
+                    ForEach(studyData.filteredCharacters) { char in
+                        NavigationLink(value: char.frequencyRank) {
+                            CharacterRowView(character: char)
+                                .padding(.horizontal)
+                        }
+                        .buttonStyle(.plain)
+                        
+                        Divider()
+                            .padding(.leading, 16)
+                    }
                 }
+                .padding(.bottom, 24)
             }
             .navigationDestination(for: Int.self) { rank in
                 if let char = studyData.allCharacters.first(where: { $0.frequencyRank == rank }) {
                     CharacterDetailView(character: char)
                 }
             }
-            .listStyle(.plain)
             .background(AppTheme.surfaceBackground)
         }
         .background(AppTheme.surfaceBackground.ignoresSafeArea())

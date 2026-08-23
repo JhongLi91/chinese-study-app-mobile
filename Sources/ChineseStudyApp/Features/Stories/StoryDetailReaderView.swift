@@ -11,7 +11,7 @@ public struct StoryDetailReaderView: View {
 
     public var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 32) {
+            LazyVStack(alignment: .leading, spacing: 32) {
                 // Header
                 StoryHeaderView(story: story)
 
