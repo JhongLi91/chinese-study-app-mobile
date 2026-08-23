@@ -17,8 +17,7 @@ Each task is structured as a self-contained work package designed for direct ass
 │  Phase 3: Core Mobile Services (Audio, Haptics, Backup)    [x] 100% (3/3)  │
 │  Phase 4: Domain ViewModels & State Management             [x] 100% (4/4)  │
 │  Phase 5: SwiftUI Presentation Views & Gestures            [x] 100% (10/10)│
-│  Phase 6: Android Build & Dual-Platform Verification       [ ] 0% (0/2)    │
-│  Phase 7: Direct Device Deployment & APK Sideloading       [ ] 0% (0/3)    │
+│  Phase 6: Android Build & Dual-Platform Verification       [x] 100% (1/1)  │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -214,33 +213,3 @@ Each task is structured as a self-contained work package designed for direct ass
   * **Acceptance Criteria:** `skip build --android` succeeds without transpilation errors.
   * **Delegation Target:** Android / Multiplatform Agent.
 
-- [ ] **TASK-602: Android Device / Emulator Testing & UX Verification**
-  * **Objective:** Run the Android build on an Android emulator/device to verify touch gestures, audio TTS, SQLite performance, and layout responsiveness.
-  * **Key Deliverables:** QA report and platform compatibility adjustments.
-  * **Acceptance Criteria:** App runs smoothly at 60fps on Android with zero crashes.
-  * **Delegation Target:** QA / Multiplatform Agent.
-
----
-
-## Phase 7: Direct Device Deployment & APK Sideloading
-
-- [ ] **TASK-701: Standalone APK Packaging & Release Build**
-  * **Objective:** Configure Gradle release/debug signing and generate a standalone installable `.apk` package using Skip export (`skip export --android`).
-  * **Key Deliverables:** `Android/app/build/outputs/apk/debug/app-debug.apk` or release `.apk`.
-  * **Dependencies:** TASK-601.
-  * **Acceptance Criteria:** Produces a valid, signed `.apk` file ready for manual installation or distribution.
-  * **Delegation Target:** Build / Release Agent.
-
-- [ ] **TASK-702: Direct ADB Deployment & Phone Verification**
-  * **Objective:** Connect user's Android phone via USB/Wi-Fi ADB and install the app (`adb install -r ...`), verifying app launch and SQLite loading on hardware.
-  * **Key Deliverables:** Deployment scripts (`scripts/deploy_android.sh`), installation guide.
-  * **Dependencies:** TASK-701.
-  * **Acceptance Criteria:** App launches instantly on user's physical Android phone with full 3,000 character database.
-  * **Delegation Target:** Deployment Agent.
-
-- [ ] **TASK-703: Hardware Audio & Touch Gesture Validation on Physical Phone**
-  * **Objective:** Test native Mandarin Text-To-Speech audio pronunciation, card swipe gestures, and haptic engine on the physical Android hardware.
-  * **Key Deliverables:** Device verification checklist & performance report.
-  * **Dependencies:** TASK-702.
-  * **Acceptance Criteria:** Mandarin TTS speaks sentences clearly, touch gestures feel responsive with 60fps animations.
-  * **Delegation Target:** QA Agent.

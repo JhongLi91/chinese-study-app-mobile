@@ -17,6 +17,7 @@ This document tracks key technical decisions, architectural choices, and resolut
 | **[ADR-007](#adr-007-swift-package-directory-layout--resource-bundling)** | Swift Package Directory Layout & Resource Bundling | **Accepted** | 2026-08-21 |
 | **[ADR-008](#adr-008-elimination-of-stopwatch-timer)** | Elimination of Stopwatch Timer | **Accepted** | 2026-08-21 |
 | **[ADR-009](#adr-009-scroll-performance-optimizations)** | Scroll Performance Optimizations | **Accepted** | 2026-08-22 |
+| **[ADR-010](#adr-010-ai-blocked-on-environmental-limitations)** | AI Blocked on Environmental Limitations (Xcode/QA) | **Accepted** | 2026-08-23 |
 
 ---
 
@@ -154,3 +155,13 @@ This document tracks key technical decisions, architectural choices, and resolut
   4. **Lazy `NavigationLink` destinations in Dictionary** — Replaced eager `NavigationLink(destination:)` with value-based `NavigationLink(value:)` + `.navigationDestination()` to avoid creating `CharacterDetailView` for every visible row.
   5. **Added `.drawingGroup()` for iOS lesson cards** — Offloads compositing to Metal on iOS (wrapped in `#if !SKIP` since Compose handles this natively).
 * **Consequences:** Eliminates per-frame O(3000×4) array scans, removes animation-triggered layout thrashing during scrolling, and reduces color allocation overhead by ~90%.
+
+---
+
+## ADR-010: AI Blocked on Environmental Limitations
+
+* **Date:** 2026-08-23
+* **Status:** Accepted
+* **Context:** The AI agent executing tasks reached Phase 6 (Android Device Testing & UX) and Phase 7 (APK Build & Device Deployment). The host environment lacked Xcode (required by Skip.tools for compilation) and the AI cannot perform physical hardware verification (gestures, haptics, TTS).
+* **Decision:** Mark Tasks 602, 701, 702, and 703 as blocked. The user will handle the local environment setup (installing Xcode and ADB) and will manually run the QA tests.
+* **Consequences:** The AI will wait for bug reports or further instructions from the user regarding the outcome of the physical testing.
