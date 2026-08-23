@@ -33,54 +33,28 @@ public struct QuizSetupView: View {
                     
                     HStack(spacing: 16) {
                         ForEach(countOptions, id: \.self) { count in
-                            Button {
+                            ModernButton(
+                                title: "\(count)",
+                                variant: selectedCount == count ? .default : .outline
+                            ) {
                                 selectedCount = count
-                            } label: {
-                                Text("\(count)")
-                                    .font(.title3.bold())
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 12)
-                                    .background(selectedCount == count ? AppTheme.statusInProgress : AppTheme.cardBackground)
-                                    .foregroundColor(selectedCount == count ? .white : AppTheme.textPrimary)
-                                    .cornerRadius(12)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 12)
-                                            .stroke(selectedCount == count ? Color.clear : AppTheme.cardBorder, lineWidth: 2)
-                                    )
                             }
                         }
                     }
                     
-                    Button {
+                    ModernButton(
+                        title: "All (\(sourceCharacters.count))",
+                        variant: selectedCount == sourceCharacters.count ? .default : .outline
+                    ) {
                         selectedCount = sourceCharacters.count
-                    } label: {
-                        Text("All (\(sourceCharacters.count))")
-                            .font(.title3.bold())
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                            .background(selectedCount == sourceCharacters.count ? AppTheme.statusInProgress : AppTheme.cardBackground)
-                            .foregroundColor(selectedCount == sourceCharacters.count ? .white : AppTheme.textPrimary)
-                            .cornerRadius(12)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(selectedCount == sourceCharacters.count ? Color.clear : AppTheme.cardBorder, lineWidth: 2)
-                            )
                     }
                 }
                 .padding()
                 
-                Button {
+                ModernButton(title: "Start Quiz", systemImage: "play.fill", variant: .default, size: .lg) {
                     onStart()
-                } label: {
-                    Text("Start Quiz")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(AppTheme.statusLearned)
-                        .foregroundColor(.white)
-                        .cornerRadius(16)
-                        .padding(.horizontal)
                 }
+                .padding(.horizontal)
             }
             Spacer()
         }

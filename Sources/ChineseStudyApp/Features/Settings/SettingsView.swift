@@ -12,70 +12,53 @@ public struct SettingsView: View {
             VStack(spacing: 24) {
                 
                 // Audio Settings
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("Audio Preferences")
-                        .font(.title3.bold())
-                        .foregroundColor(AppTheme.textPrimary)
-                    
-                    Toggle("Enable Sound Effects & Haptics", isOn: $appState.isSoundEffectsEnabled)
-                        .tint(AppTheme.statusLearned)
-                    
-                    Toggle("Auto-Play Pronunciation on Flip", isOn: $appState.autoPlayAudioOnFlip)
-                        .tint(AppTheme.statusLearned)
-                    
-                    VStack(alignment: .leading) {
-                        Text("Mandarin TTS Speech Rate")
+                Card {
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Audio Preferences")
+                            .font(.title3.bold())
                             .foregroundColor(AppTheme.textPrimary)
                         
-                        HStack {
-                            Image(systemName: "tortoise")
-                                .foregroundColor(AppTheme.textSecondary)
-                            Slider(value: $appState.speechRate, in: 0.5...1.5, step: 0.25)
-                                .tint(AppTheme.statusInProgress)
-                            Image(systemName: "hare")
-                                .foregroundColor(AppTheme.textSecondary)
+                        Toggle("Enable Sound Effects & Haptics", isOn: $appState.isSoundEffectsEnabled)
+                            .tint(AppTheme.primary)
+                        
+                        Toggle("Auto-Play Pronunciation on Flip", isOn: $appState.autoPlayAudioOnFlip)
+                            .tint(AppTheme.primary)
+                        
+                        VStack(alignment: .leading) {
+                            Text("Mandarin TTS Speech Rate")
+                                .foregroundColor(AppTheme.textPrimary)
+                            
+                            HStack {
+                                Image(systemName: "tortoise")
+                                    .foregroundColor(AppTheme.textSecondary)
+                                Slider(value: $appState.speechRate, in: 0.5...1.5, step: 0.25)
+                                    .tint(AppTheme.primary)
+                                Image(systemName: "hare")
+                                    .foregroundColor(AppTheme.textSecondary)
+                            }
                         }
                     }
                 }
-                .padding()
-                .background(AppTheme.cardBackground)
-                .cornerRadius(16)
                 
                 // Backup & Restore module
                 DatabaseBackupView()
                 
                 // Danger Zone
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("Danger Zone")
-                        .font(.title3.bold())
-                        .foregroundColor(AppTheme.tone1) // Red
-                    
-                    Text("This will permanently delete all your learning progress and reset all 3,000 characters to 'New' status.")
-                        .font(.subheadline)
-                        .foregroundColor(AppTheme.textSecondary)
-                    
-                    Button(role: .destructive) {
-                        showResetConfirmation = true
-                    } label: {
-                        HStack {
-                            Image(systemName: "trash")
-                            Text("Reset All Progress")
+                Card {
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Danger Zone")
+                            .font(.title3.bold())
+                            .foregroundColor(AppTheme.tone1) // Red
+                        
+                        Text("This will permanently delete all your learning progress and reset all 3,000 characters to 'New' status.")
+                            .font(.subheadline)
+                            .foregroundColor(AppTheme.textSecondary)
+                        
+                        ModernButton(title: "Reset All Progress", variant: .destructive, size: .lg) {
+                            showResetConfirmation = true
                         }
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(AppTheme.tone1.opacity(0.1))
-                        .foregroundColor(AppTheme.tone1)
-                        .cornerRadius(12)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(AppTheme.tone1, lineWidth: 1)
-                        )
                     }
                 }
-                .padding()
-                .background(AppTheme.cardBackground)
-                .cornerRadius(16)
                 
                 // About Section
                 VStack(alignment: .center, spacing: 8) {

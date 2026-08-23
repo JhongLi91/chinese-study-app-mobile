@@ -52,43 +52,47 @@ public struct AppTheme {
         }
     }
 
-    // MARK: - UI Surfaces & Badges
+    // MARK: - UI Surfaces & Shadcn Zinc Palette
     
-    /// Resolved dark-mode colors. Each color pair is pre-defined so the only
-    /// per-access cost is the single Bool branch – no cross-actor hop.
-    private static let cardBackgroundDark = Color(red: 30.0 / 255.0, green: 41.0 / 255.0, blue: 59.0 / 255.0)
-    private static let cardBackgroundLight = Color(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0)
-    private static let cardBorderDark = Color(red: 51.0 / 255.0, green: 65.0 / 255.0, blue: 85.0 / 255.0)
-    private static let cardBorderLight = Color(red: 226.0 / 255.0, green: 232.0 / 255.0, blue: 240.0 / 255.0)
-    private static let surfaceBackgroundDark = Color(red: 15.0 / 255.0, green: 23.0 / 255.0, blue: 42.0 / 255.0)
-    private static let surfaceBackgroundLight = Color(red: 248.0 / 255.0, green: 250.0 / 255.0, blue: 252.0 / 255.0)
-    private static let textSecondaryDark = Color(red: 148.0 / 255.0, green: 163.0 / 255.0, blue: 184.0 / 255.0)
-    private static let textSecondaryLight = Color(red: 100.0 / 255.0, green: 116.0 / 255.0, blue: 139.0 / 255.0)
-    private static let textPrimaryDark = Color.white
-    private static let textPrimaryLight = Color(red: 15.0 / 255.0, green: 23.0 / 255.0, blue: 42.0 / 255.0)
+    // Light Mode (Zinc)
+    private static let bgLight = Color(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0) // #ffffff
+    private static let fgLight = Color(red: 9.0/255.0, green: 9.0/255.0, blue: 11.0/255.0) // #09090b
+    private static let cardLight = Color(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0) // #ffffff
+    private static let borderLight = Color(red: 228.0/255.0, green: 228.0/255.0, blue: 231.0/255.0) // #e4e4e7
+    private static let mutedLight = Color(red: 244.0/255.0, green: 244.0/255.0, blue: 245.0/255.0) // #f4f4f5
+    private static let mutedFgLight = Color(red: 113.0/255.0, green: 113.0/255.0, blue: 122.0/255.0) // #71717a
+    private static let primaryLight = Color(red: 24.0/255.0, green: 24.0/255.0, blue: 27.0/255.0) // #18181b
+    private static let primaryFgLight = Color(red: 250.0/255.0, green: 250.0/255.0, blue: 250.0/255.0) // #fafafa
+
+    // Dark Mode (Zinc)
+    private static let bgDark = Color(red: 9.0/255.0, green: 9.0/255.0, blue: 11.0/255.0) // #09090b
+    private static let fgDark = Color(red: 250.0/255.0, green: 250.0/255.0, blue: 250.0/255.0) // #fafafa
+    private static let cardDark = Color(red: 9.0/255.0, green: 9.0/255.0, blue: 11.0/255.0) // #09090b
+    private static let borderDark = Color(red: 39.0/255.0, green: 39.0/255.0, blue: 42.0/255.0) // #27272a
+    private static let mutedDark = Color(red: 39.0/255.0, green: 39.0/255.0, blue: 42.0/255.0) // #27272a
+    private static let mutedFgDark = Color(red: 161.0/255.0, green: 161.0/255.0, blue: 170.0/255.0) // #a1a1aa
+    private static let primaryDark = Color(red: 250.0/255.0, green: 250.0/255.0, blue: 250.0/255.0) // #fafafa
+    private static let primaryFgDark = Color(red: 24.0/255.0, green: 24.0/255.0, blue: 27.0/255.0) // #18181b
 
     private static var isDark: Bool {
         AppState.shared.isDarkMode
     }
 
-    /// Card background container fill
-    public static var cardBackground: Color {
-        isDark ? cardBackgroundDark : cardBackgroundLight
-    }
+    public static var background: Color { isDark ? bgDark : bgLight }
+    public static var surfaceBackground: Color { isDark ? bgDark : bgLight } // Legacy alias
+    public static var foreground: Color { isDark ? fgDark : fgLight }
+    public static var textPrimary: Color { isDark ? fgDark : fgLight } // Legacy alias
     
-    public static var cardBorder: Color {
-        isDark ? cardBorderDark : cardBorderLight
-    }
+    public static var card: Color { isDark ? cardDark : cardLight }
+    public static var cardBackground: Color { isDark ? cardDark : cardLight } // Legacy alias
     
-    public static var surfaceBackground: Color {
-        isDark ? surfaceBackgroundDark : surfaceBackgroundLight
-    }
+    public static var border: Color { isDark ? borderDark : borderLight }
+    public static var cardBorder: Color { isDark ? borderDark : borderLight } // Legacy alias
     
-    public static var textPrimary: Color {
-        isDark ? textPrimaryDark : textPrimaryLight
-    }
+    public static var muted: Color { isDark ? mutedDark : mutedLight }
+    public static var mutedForeground: Color { isDark ? mutedFgDark : mutedFgLight }
+    public static var textSecondary: Color { isDark ? mutedFgDark : mutedFgLight } // Legacy alias
     
-    public static var textSecondary: Color {
-        isDark ? textSecondaryDark : textSecondaryLight
-    }
+    public static var primary: Color { isDark ? primaryDark : primaryLight }
+    public static var primaryForeground: Color { isDark ? primaryFgDark : primaryFgLight }
 }

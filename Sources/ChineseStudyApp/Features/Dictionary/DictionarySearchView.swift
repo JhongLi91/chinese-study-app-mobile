@@ -12,7 +12,7 @@ public struct DictionarySearchView: View {
             // Search Bar
             HStack {
                 Image(systemName: "magnifyingglass")
-                    .foregroundColor(AppTheme.textSecondary)
+                    .foregroundColor(AppTheme.mutedForeground)
                 
                 TextField("Search Hanzi, Pinyin, or English", text: $studyData.searchQuery)
                     .focused($isSearchFocused)
@@ -24,13 +24,18 @@ public struct DictionarySearchView: View {
                         isSearchFocused = false
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(AppTheme.textSecondary)
+                            .foregroundColor(AppTheme.mutedForeground)
                     }
                 }
             }
-            .padding()
-            .background(AppTheme.cardBackground)
-            .cornerRadius(12)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .background(AppTheme.background)
+            .cornerRadius(6)
+            .overlay(
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(AppTheme.border, lineWidth: 1)
+            )
             .padding()
 
             // Filter Pills
@@ -70,9 +75,9 @@ public struct DictionarySearchView: View {
                     CharacterDetailView(character: char)
                 }
             }
-            .background(AppTheme.surfaceBackground)
+            .background(AppTheme.background)
         }
-        .background(AppTheme.surfaceBackground.ignoresSafeArea())
+        .background(AppTheme.background.ignoresSafeArea())
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 ThemeToggle()
@@ -106,9 +111,13 @@ private struct FilterPill: View {
                 .font(.subheadline.bold())
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
-                .background(isSelected ? AppTheme.statusInProgress : AppTheme.cardBorder)
-                .foregroundColor(isSelected ? .white : AppTheme.textPrimary)
+                .background(isSelected ? AppTheme.primary : AppTheme.background)
+                .foregroundColor(isSelected ? AppTheme.primaryForeground : AppTheme.foreground)
                 .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(isSelected ? Color.clear : AppTheme.border, lineWidth: 1)
+                )
         }
     }
 }

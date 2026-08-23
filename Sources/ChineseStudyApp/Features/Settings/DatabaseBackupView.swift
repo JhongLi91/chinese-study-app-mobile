@@ -56,80 +56,53 @@ public struct DatabaseBackupView: View {
     }
     
     private var content: some View {
-        VStack(spacing: 24) {
-            Text("Data Backup & Restore")
-                .font(.title2.bold())
-                .foregroundColor(AppTheme.textPrimary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            
-            Text("Export your learning progress to a portable JSON file to back it up or migrate to another device. You can restore your progress anytime.")
-                .font(.body)
-                .foregroundColor(AppTheme.textSecondary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            
-            VStack(spacing: 16) {
-                if isExporting {
-                    ProgressView()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                } else if let url = exportURL {
-                    ShareLink(item: url) {
-                        HStack {
-                            Image(systemName: "square.and.arrow.up")
-                            Text("Share Backup File")
-                        }
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(AppTheme.statusInProgress)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                    }
-                } else {
-                    Button {
-                        generateBackup()
-                    } label: {
-                        HStack {
-                            Image(systemName: "doc.zipper")
-                            Text("Generate JSON Backup")
-                        }
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(AppTheme.statusInProgress)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                    }
-                }
-                
-                Button {
-                    #if !SKIP
-                    isShowingImporter = true
-                    #else
-                    alertMessage = "Restoring backups on Android requires direct file access. Currently unavailable in this build."
-                    showAlert = true
-                    #endif
-                } label: {
-                    HStack {
-                        Image(systemName: "square.and.arrow.down")
-                        Text("Restore from Backup")
-                    }
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(AppTheme.cardBackground)
+        Card {
+            VStack(spacing: 24) {
+                Text("Data Backup & Restore")
+                    .font(.title2.bold())
                     .foregroundColor(AppTheme.textPrimary)
-                    .cornerRadius(12)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(AppTheme.cardBorder, lineWidth: 1)
-                    )
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Text("Export your learning progress to a portable JSON file to back it up or migrate to another device. You can restore your progress anytime.")
+                    .font(.body)
+                    .foregroundColor(AppTheme.textSecondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                VStack(spacing: 16) {
+                    if isExporting {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                    } else if let url = exportURL {
+                        ShareLink(item: url) {
+                            HStack {
+                                Image(systemName: "square.and.arrow.up")
+                                Text("Share Backup File")
+                            }
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(AppTheme.primary)
+                            .foregroundColor(AppTheme.primaryForeground)
+                            .cornerRadius(6)
+                        }
+                    } else {
+                        ModernButton(title: "Generate JSON Backup", systemImage: "doc.zipper", variant: .default, size: .lg) {
+                            generateBackup()
+                        }
+                    }
+                    
+                    ModernButton(title: "Restore from Backup", systemImage: "square.and.arrow.down", variant: .outline, size: .lg) {
+                        #if !SKIP
+                        isShowingImporter = true
+                        #else
+                        alertMessage = "Restoring backups on Android requires direct file access. Currently unavailable in this build."
+                        showAlert = true
+                        #endif
+                    }
                 }
             }
         }
-        .padding()
-        .background(AppTheme.cardBackground)
-        .cornerRadius(16)
     }
     
     private func generateBackup() {

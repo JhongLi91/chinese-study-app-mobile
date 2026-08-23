@@ -9,53 +9,48 @@ public struct LessonCardItemView: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(lesson.title)
-                        .font(.headline)
-                        .foregroundColor(AppTheme.textPrimary)
-                    
-                    Text(lesson.characterRangeString)
-                        .font(.caption)
-                        .foregroundColor(AppTheme.textSecondary)
-                }
-                
-                Spacer()
-                
-                ZStack {
-                    CircularProgressView(
-                        progress: lesson.masteryPercentage / 100.0,
-                        tintColor: AppTheme.statusLearned,
-                        lineWidth: 6
-                    )
-                    .frame(width: 44, height: 44)
-                    
-                    if lesson.isFullyLearned {
-                        Text("✔️")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(AppTheme.statusLearned)
-                    } else {
-                        Text("\(Int(lesson.masteryPercentage))%")
-                            .font(.system(size: 12, weight: .bold))
+        Card(padding: 16) {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(lesson.title)
+                            .font(.headline)
                             .foregroundColor(AppTheme.textPrimary)
+                        
+                        Text(lesson.characterRangeString)
+                            .font(.caption)
+                            .foregroundColor(AppTheme.textSecondary)
+                    }
+                    
+                    Spacer()
+                    
+                    ZStack {
+                        CircularProgressView(
+                            progress: lesson.masteryPercentage / 100.0,
+                            tintColor: AppTheme.statusLearned,
+                            lineWidth: 6
+                        )
+                        .frame(width: 44, height: 44)
+                        
+                        if lesson.isFullyLearned {
+                            Text("✔️")
+                                .font(.system(size: 16, weight: .bold))
+                                .foregroundColor(AppTheme.statusLearned)
+                        } else {
+                            Text("\(Int(lesson.masteryPercentage))%")
+                                .font(.system(size: 12, weight: .bold))
+                                .foregroundColor(AppTheme.textPrimary)
+                        }
                     }
                 }
-            }
-            
-            HStack(spacing: 8) {
-                StatusBadge(count: lesson.learnedCount, status: .learned)
-                StatusBadge(count: lesson.inProgressCount, status: .inProgress)
-                StatusBadge(count: lesson.newCount, status: .new)
+                
+                HStack(spacing: 8) {
+                    StatusBadge(count: lesson.learnedCount, status: .learned)
+                    StatusBadge(count: lesson.inProgressCount, status: .inProgress)
+                    StatusBadge(count: lesson.newCount, status: .new)
+                }
             }
         }
-        .padding(16)
-        .background(AppTheme.cardBackground)
-        .cornerRadius(16)
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(AppTheme.cardBorder, lineWidth: 1)
-        )
     }
 }
 

@@ -10,21 +10,16 @@ public struct FlashcardView: View {
     }
 
     public var body: some View {
-        ZStack {
-            if isFlipped {
-                backView
-            } else {
-                frontView
+        Card(padding: 0) {
+            ZStack {
+                if isFlipped {
+                    backView
+                } else {
+                    frontView
+                }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppTheme.cardBackground)
-        .cornerRadius(24)
-        .overlay(
-            RoundedRectangle(cornerRadius: 24)
-                .stroke(AppTheme.cardBorder, lineWidth: 2)
-        )
-        .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
         .rotation3DEffect(.degrees(isFlipped ? 180.0 : 0.0), axis: (x: 0.0, y: 1.0, z: 0.0))
     }
 
