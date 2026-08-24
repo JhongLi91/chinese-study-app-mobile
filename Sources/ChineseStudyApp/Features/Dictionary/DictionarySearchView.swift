@@ -13,7 +13,8 @@ public struct DictionarySearchView: View {
         VStack(spacing: 0) {
             // Search Bar
             HStack {
-                Image(systemName: "magnifyingglass")
+                Image("search", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                .frame(width: 18, height: 18)
                     .foregroundColor(AppTheme.mutedForeground)
                 
                 TextField("Search Hanzi, Pinyin, or English", text: $studyData.searchQuery)
@@ -25,7 +26,8 @@ public struct DictionarySearchView: View {
                         studyData.searchQuery = ""
                         isSearchFocused = false
                     } label: {
-                        Image(systemName: "xmark.circle.fill")
+                        Image("x", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                        .frame(width: 18, height: 18)
                             .foregroundColor(AppTheme.mutedForeground)
                     }
                 }
@@ -74,13 +76,17 @@ public struct DictionarySearchView: View {
         }
         .background(AppTheme.background.ignoresSafeArea())
         .toolbar {
+            ToolbarItem(placement: .navigation) {
+                SidebarToggleButton()
+            }
             ToolbarItem(placement: .primaryAction) {
                 HStack(spacing: 16) {
                     ThemeToggle()
                     Button {
                         showQuizModal = true
                     } label: {
-                        Image(systemName: "play.circle.fill")
+                        Image("play-circle", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                        .frame(width: 24, height: 24)
                     }
                     .disabled(studyData.filteredCharacters.isEmpty)
                 }
@@ -135,7 +141,8 @@ private struct CharacterRowView: View {
                     
                     Spacer()
                     
-                    Image(systemName: character.status.systemImage)
+                    Image(character.status.systemImage, bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                        .frame(width: 17, height: 17)
                         .foregroundColor(statusColor)
                 }
                 

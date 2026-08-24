@@ -12,8 +12,11 @@ public struct QuizResultsView: View {
             
             let accuracy = quizQueue.isEmpty ? 0 : Int((Double(correctCount) / Double(quizQueue.count)) * 100)
             
-            Image(systemName: accuracy >= 80 ? "star.fill" : (accuracy >= 50 ? "star.fill" : "star"))
-                .font(.system(size: 100))
+            Image("star", bundle: .module)
+                .resizable()
+                .renderingMode(.template)
+                .scaledToFit()
+                .frame(width: 100, height: 100)
                 .foregroundColor(accuracy >= 80 ? AppTheme.statusLearned : AppTheme.statusInProgress)
             
             Text("Quiz Finished!")

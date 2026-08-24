@@ -39,7 +39,9 @@ public struct ModernButton: View {
         Button(action: action) {
             HStack(spacing: 8) {
                 if let icon = systemImage {
-                    Image(systemName: icon)
+                    Image(icon, bundle: .module)
+                        .resizable().renderingMode(.template).scaledToFit()
+                        .frame(width: 17, height: 17)
                 }
                 Text(title)
             }

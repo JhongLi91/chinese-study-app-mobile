@@ -52,7 +52,8 @@ public struct StoryDetailReaderView: View {
                         StoryQuizView(story: story)
                     } label: {
                         HStack {
-                            Image(systemName: "checklist")
+                            Image("list-checks", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                            .frame(width: 20, height: 20)
                             Text("Take Quiz")
                         }
                         .frame(maxWidth: .infinity)
@@ -78,7 +79,8 @@ public struct StoryDetailReaderView: View {
                         }
                     }
                 } label: {
-                    Image(systemName: "ellipsis.circle")
+                    Image("more-horizontal", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                    .frame(width: 24, height: 24)
                 }
             }
         }

@@ -9,8 +9,8 @@ public struct QuizSetupView: View {
     
     public var body: some View {
         VStack(spacing: 32) {
-            Image(systemName: "questionmark.circle")
-                .font(.system(size: 80))
+            Image("help-circle", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                .frame(width: 80, height: 80)
                 .foregroundColor(AppTheme.statusInProgress)
             
             VStack(spacing: 8) {

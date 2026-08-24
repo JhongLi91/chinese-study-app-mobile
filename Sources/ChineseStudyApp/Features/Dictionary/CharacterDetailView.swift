@@ -23,8 +23,8 @@ public struct CharacterDetailView: View {
                     Button {
                         AudioService.shared.speak(text: character.character, rate: AppState.shared.speechRate)
                     } label: {
-                        Image(systemName: "speaker.fill")
-                            .font(.title2)
+                        Image("volume-2", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                            .frame(width: 28, height: 28)
                             .foregroundColor(AppTheme.statusInProgress)
                             .padding()
                             .background(AppTheme.cardBackground)
@@ -86,7 +86,8 @@ public struct CharacterDetailView: View {
                                     Button {
                                         AudioService.shared.speak(text: assoc.word, rate: AppState.shared.speechRate)
                                     } label: {
-                                        Image(systemName: "speaker.fill")
+                                        Image("volume-2", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                                        .frame(width: 24, height: 24)
                                             .foregroundColor(AppTheme.textSecondary)
                                     }
                                 }

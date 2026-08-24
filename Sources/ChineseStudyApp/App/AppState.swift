@@ -15,15 +15,15 @@ public enum AppTab: String, CaseIterable, Identifiable, Sendable {
 
     public var id: String { rawValue }
 
-    public var emoji: String {
+    public var iconName: String {
         switch self {
         case .lessons: return "book"
-        case .learned: return "checkmark.circle.fill"
-        case .inProgress: return "clock.fill"
-        case .allHanzi: return "list.bullet"
-        case .stories: return "book.closed.fill"
-        case .match: return "gamecontroller.fill"
-        case .settings: return "gear"
+        case .learned: return "check-circle"
+        case .inProgress: return "clock"
+        case .allHanzi: return "list"
+        case .stories: return "book"
+        case .match: return "gamepad-2"
+        case .settings: return "settings"
         }
     }
     
@@ -41,6 +41,7 @@ public final class AppState: ObservableObject {
     public static let shared = AppState()
 
     @Published public var selectedTab: AppTab = .lessons
+    @Published public var isSidebarOpen: Bool = false
     @Published public var activeLessonNumber: Int = 1
     @Published public var isSoundEffectsEnabled: Bool = true
     @Published public var speechRate: Double = 1.0

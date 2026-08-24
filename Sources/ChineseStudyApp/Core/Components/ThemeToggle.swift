@@ -11,7 +11,9 @@ public struct ThemeToggle: View {
                 appState.isDarkMode.toggle()
             }
         } label: {
-            Image(systemName: appState.isDarkMode ? "moon.fill" : "sun.max.fill")
+            Image(appState.isDarkMode ? "moon" : "sun", bundle: .module)
+                .resizable().renderingMode(.template).scaledToFit()
+                .frame(width: 20, height: 20)
                 .foregroundColor(AppTheme.textPrimary)
                 .padding(8)
                 .background(AppTheme.cardBackground)

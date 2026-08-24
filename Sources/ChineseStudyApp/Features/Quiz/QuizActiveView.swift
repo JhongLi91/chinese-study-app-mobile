@@ -49,8 +49,8 @@ public struct QuizActiveView: View {
                     onRecordAnswer(false)
                 } label: {
                     VStack {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 24, weight: .bold))
+                        Image("x", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                            .frame(width: 24, height: 24)
                         Text("Didn't Know")
                             .font(.caption.bold())
                     }
@@ -65,8 +65,8 @@ public struct QuizActiveView: View {
                     onRecordAnswer(true)
                 } label: {
                     VStack {
-                        Image(systemName: "checkmark")
-                            .font(.system(size: 24, weight: .bold))
+                        Image("check", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                            .frame(width: 24, height: 24)
                         Text("Knew It")
                             .font(.caption.bold())
                     }

@@ -31,6 +31,9 @@ public struct LessonsGridView: View {
                 }
         }
         .toolbar {
+            ToolbarItem(placement: .navigation) {
+                SidebarToggleButton()
+            }
             ToolbarItem(placement: .primaryAction) {
                 ThemeToggle()
             }
@@ -53,7 +56,8 @@ private struct LessonChunkView: View {
                             .font(.title3.bold())
                             .foregroundColor(AppTheme.textPrimary)
                         Spacer()
-                        Image(systemName: "chevron.right")
+                        Image("chevron-right", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                        .frame(width: 16, height: 16)
                             .rotationEffect(.degrees(isExpanded ? 90.0 : 0.0))
                             .foregroundColor(AppTheme.textSecondary)
                     }

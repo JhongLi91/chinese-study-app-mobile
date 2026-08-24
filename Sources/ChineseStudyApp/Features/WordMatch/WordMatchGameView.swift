@@ -88,10 +88,11 @@ public struct WordMatchGameView: View {
                         .font(.caption)
                         .foregroundColor(AppTheme.textSecondary)
                     HStack(spacing: 4) {
-                        Image(systemName: "bolt.fill")
+                        Image("zap", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                        .frame(width: 16, height: 16)
                             .foregroundColor(gameViewModel.streak >= 3 ? AppTheme.statusInProgress : AppTheme.cardBorder)
                         Text("\(gameViewModel.streak)")
-                            .font(.title3.bold())
+                            .frame(width: 28, height: 28)
                             .foregroundColor(gameViewModel.streak >= 3 ? AppTheme.statusInProgress : AppTheme.textPrimary)
                     }
                 }
@@ -108,8 +109,8 @@ public struct WordMatchGameView: View {
                 Spacer()
                 
                 VStack(spacing: 24) {
-                    Image(systemName: "sparkles")
-                        .font(.system(size: 80))
+                    Image("sparkles", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                        .frame(width: 80, height: 80)
                         .foregroundColor(AppTheme.statusInProgress)
                     
                     Text("Round Complete!")
@@ -122,9 +123,9 @@ public struct WordMatchGameView: View {
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
                     
-                    Button {
+                    Button(action: {
                         startSelectedGameMode()
-                    } label: {
+                    }) {
                         Text("Play Again")
                             .font(.headline)
                             .padding()
@@ -161,6 +162,9 @@ public struct WordMatchGameView: View {
             }
         }
         .toolbar {
+            ToolbarItem(placement: .navigation) {
+                SidebarToggleButton()
+            }
             ToolbarItem(placement: .primaryAction) {
                 ThemeToggle()
             }

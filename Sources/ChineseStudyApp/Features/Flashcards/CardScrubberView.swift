@@ -10,8 +10,7 @@ public struct CardScrubberView: View {
             Button {
                 studyData.previousCard()
             } label: {
-                Image(systemName: "chevron.left.circle.fill")
-                    .resizable()
+                Image("chevron-left", bundle: .module).resizable().renderingMode(.template).scaledToFit()
                     .frame(width: 44, height: 44)
                     .foregroundColor(studyData.activeCardIndex > 0 ? AppTheme.textPrimary : AppTheme.cardBorder)
             }
@@ -30,8 +29,7 @@ public struct CardScrubberView: View {
             Button {
                 studyData.nextCard()
             } label: {
-                Image(systemName: "chevron.right.circle.fill")
-                    .resizable()
+                Image("chevron-right", bundle: .module).resizable().renderingMode(.template).scaledToFit()
                     .frame(width: 44, height: 44)
                     .foregroundColor(studyData.activeCardIndex < studyData.currentLessonCharacters.count - 1 ? AppTheme.textPrimary : AppTheme.cardBorder)
             }

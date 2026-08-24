@@ -40,8 +40,8 @@ public struct FlashcardStudyView: View {
                             studyData.markCurrentCardInProgress()
                         }
                     } label: {
-                        Image(systemName: "clock.fill")
-                            .font(.system(size: 24, weight: .bold))
+                        Image("clock", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                            .frame(width: 24, height: 24)
                             .foregroundColor(AppTheme.statusInProgress)
                             .frame(width: 64, height: 64)
                             .background(AppTheme.cardBackground)
@@ -52,8 +52,8 @@ public struct FlashcardStudyView: View {
                     Button {
                         showExampleSheet = true
                     } label: {
-                        Image(systemName: "doc.text")
-                            .font(.system(size: 20, weight: .bold))
+                        Image("file-text", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                            .frame(width: 20, height: 20)
                             .foregroundColor(AppTheme.textPrimary)
                             .frame(width: 56, height: 56)
                             .background(AppTheme.cardBackground)
@@ -66,8 +66,8 @@ public struct FlashcardStudyView: View {
                             studyData.markCurrentCardLearned()
                         }
                     } label: {
-                        Image(systemName: "checkmark")
-                            .font(.system(size: 24, weight: .bold))
+                        Image("check", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                            .frame(width: 24, height: 24)
                             .foregroundColor(AppTheme.statusLearned)
                             .frame(width: 64, height: 64)
                             .background(AppTheme.cardBackground)
@@ -81,8 +81,8 @@ public struct FlashcardStudyView: View {
 
             } else {
                 VStack(spacing: 16) {
-                    Image(systemName: "star.fill")
-                        .font(.system(size: 64))
+                    Image("star", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                        .frame(width: 64, height: 64)
                         .foregroundColor(AppTheme.statusLearned)
                     Text("Lesson Complete!")
                         .font(.title.bold())

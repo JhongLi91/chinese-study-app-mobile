@@ -56,9 +56,9 @@ public struct FlashcardView: View {
                     .font(.system(size: 44, weight: .bold))
                     .foregroundColor(AppTheme.textSecondary)
                 Spacer()
-                Image(systemName: "speaker.wave.2.fill")
+                Image("volume-2", bundle: .module).resizable().renderingMode(.template).scaledToFit()
                     .foregroundColor(AppTheme.primary)
-                    .font(.title2)
+                    .frame(width: 22, height: 22)
             }
             .padding(.horizontal, 24)
             .padding(.top, 24)

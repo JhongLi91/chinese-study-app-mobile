@@ -15,8 +15,8 @@ public struct StoryQuizView: View {
                 if storyViewModel.isQuizSubmitted {
                     // Results View
                     VStack(spacing: 16) {
-                        Image(systemName: storyViewModel.quizScore == story.questions.count ? "star.fill" : "star.fill")
-                            .font(.system(size: 64))
+                        Image("star", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                            .frame(width: 64, height: 64)
                             .foregroundColor(AppTheme.statusLearned)
                         
                         Text("Quiz Complete!")
@@ -47,7 +47,8 @@ public struct StoryQuizView: View {
                                 storyViewModel.selectQuizOption(questionIndex: index, optionIndex: optIndex)
                             } label: {
                                 HStack {
-                                    Image(systemName: getIcon(questionIndex: index, optionIndex: optIndex, question: question))
+                                    Image(getIcon(questionIndex: index, optionIndex: optIndex, question: question), bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                                        .frame(width: 20, height: 20)
                                         .foregroundColor(getColor(questionIndex: index, optionIndex: optIndex, question: question))
                                     Text(option)
                                         .foregroundColor(AppTheme.textPrimary)
@@ -117,12 +118,12 @@ public struct StoryQuizView: View {
         let isSelected = storyViewModel.selectedQuizAnswers[questionIndex] == optionIndex
         
         if !storyViewModel.isQuizSubmitted {
-            return isSelected ? "largecircle.fill.circle" : "circle"
+            return isSelected ? "check-circle" : "circle"
         } else {
             if optionIndex == question.correctAnswer {
-                return "checkmark.circle.fill"
+                return "check-circle"
             } else if isSelected {
-                return "xmark.circle.fill"
+                return "x"
             } else {
                 return "circle"
             }

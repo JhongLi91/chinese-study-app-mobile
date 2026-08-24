@@ -3,7 +3,6 @@ import SwiftUI
 /// Main content root view displaying the sidebar and main navigation.
 public struct MainTabView: View {
     @EnvironmentObject var appState: AppState
-    @State private var isSidebarOpen = false
 
     public init() {}
 
@@ -14,19 +13,19 @@ public struct MainTabView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             // Dimmed background for sidebar
-            if isSidebarOpen {
+            if appState.isSidebarOpen {
                 Color.black.opacity(0.5)
                     .ignoresSafeArea()
                     .onTapGesture {
                         withAnimation {
-                            isSidebarOpen = false
+                            appState.isSidebarOpen = false
                         }
                     }
             }
 
             // Sidebar
-            if isSidebarOpen {
-                SidebarView(isSidebarOpen: $isSidebarOpen)
+            if appState.isSidebarOpen {
+                SidebarView()
                     .frame(width: 280)
                     .transition(.move(edge: .leading))
                     .zIndex(2)
@@ -42,21 +41,14 @@ public struct MainTabView: View {
                 case .lessons:
                     LessonsGridView()
                         .navigationTitle(AppTab.lessons.rawValue)
-                case .learned:
+                case .learned, .inProgress, .allHanzi:
                     DictionarySearchView()
-                        .id(AppTab.learned.rawValue)
-                        .navigationTitle(AppTab.learned.rawValue)
-                        .onAppear { StudyDataViewModel.shared.selectedFilterStatus = .learned }
-                case .inProgress:
-                    DictionarySearchView()
-                        .id(AppTab.inProgress.rawValue)
-                        .navigationTitle(AppTab.inProgress.rawValue)
-                        .onAppear { StudyDataViewModel.shared.selectedFilterStatus = .inProgress }
-                case .allHanzi:
-                    DictionarySearchView()
-                        .id(AppTab.allHanzi.rawValue)
-                        .navigationTitle(AppTab.allHanzi.rawValue)
-                        .onAppear { StudyDataViewModel.shared.selectedFilterStatus = nil }
+                        .id("DictionarySearchTabs") // Single static identity
+                        .navigationTitle(appState.selectedTab.rawValue)
+                        .onAppear { updateFilterStatus(for: appState.selectedTab) }
+                        .onChange(of: appState.selectedTab) { _ in
+                            updateFilterStatus(for: appState.selectedTab)
+                        }
                 case .stories:
                     StoryCatalogView()
                         .navigationTitle(AppTab.stories.rawValue)
@@ -68,19 +60,19 @@ public struct MainTabView: View {
                         .navigationTitle(AppTab.settings.rawValue)
                 }
             }
-            .toolbar {
-                ToolbarItem(placement: .navigation) {
-                    Button(action: {
-                        withAnimation {
-                            isSidebarOpen.toggle()
-                        }
-                    }) {
-                        Image(systemName: "line.3.horizontal")
-                            .font(.title2)
-                            .foregroundColor(.primary)
-                    }
-                }
-            }
+        }
+    }
+    
+    private func updateFilterStatus(for tab: AppTab) {
+        switch tab {
+        case .learned:
+            StudyDataViewModel.shared.selectedFilterStatus = .learned
+        case .inProgress:
+            StudyDataViewModel.shared.selectedFilterStatus = .inProgress
+        case .allHanzi:
+            StudyDataViewModel.shared.selectedFilterStatus = nil
+        default:
+            break
         }
     }
 }

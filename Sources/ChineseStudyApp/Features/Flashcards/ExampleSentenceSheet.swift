@@ -40,7 +40,8 @@ public struct ExampleSentenceSheet: View {
                         AudioService.shared.speak(text: exampleZh, rate: AppState.shared.speechRate)
                     } label: {
                         HStack {
-                            Image(systemName: "speaker.fill")
+                            Image("volume-2", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                            .frame(width: 24, height: 24)
                             Text("Play Audio")
                         }
                         .frame(maxWidth: .infinity)

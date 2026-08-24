@@ -29,11 +29,13 @@ public struct SettingsView: View {
                                 .foregroundColor(AppTheme.textPrimary)
                             
                             HStack {
-                                Image(systemName: "minus")
+                                Image("minus", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                                .frame(width: 20, height: 20)
                                     .foregroundColor(AppTheme.textSecondary)
                                 Slider(value: $appState.speechRate, in: 0.5...1.5, step: 0.25)
                                     .tint(AppTheme.primary)
-                                Image(systemName: "plus")
+                                Image("plus", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                                .frame(width: 20, height: 20)
                                     .foregroundColor(AppTheme.textSecondary)
                             }
                         }
@@ -84,6 +86,9 @@ public struct SettingsView: View {
             Text("Are you absolutely sure? This action cannot be undone unless you have a backup file.")
         }
         .toolbar {
+            ToolbarItem(placement: .navigation) {
+                SidebarToggleButton()
+            }
             ToolbarItem(placement: .primaryAction) {
                 ThemeToggle()
             }

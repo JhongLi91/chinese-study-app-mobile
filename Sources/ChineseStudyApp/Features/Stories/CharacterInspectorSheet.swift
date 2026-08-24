@@ -69,8 +69,8 @@ public struct CharacterInspectorSheet: View {
                     .padding()
                 } else {
                     VStack(spacing: 16) {
-                        Image(systemName: "questionmark.circle")
-                            .font(.system(size: 64))
+                        Image("help-circle", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                            .frame(width: 64, height: 64)
                             .foregroundColor(AppTheme.textSecondary)
                         Text("Character not found in curriculum.")
                             .font(.headline)
@@ -107,8 +107,8 @@ private struct StatusButton: View {
     var body: some View {
         Button(action: action) {
             VStack {
-                Image(systemName: icon)
-                    .font(.title2)
+                Image(icon, bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                    .frame(width: 22, height: 22)
                 Text(title)
                     .font(.caption.bold())
             }

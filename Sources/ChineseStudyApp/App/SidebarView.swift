@@ -3,7 +3,6 @@ import SwiftUI
 struct SidebarView: View {
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var studyData: StudyDataViewModel
-    @Binding var isSidebarOpen: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -16,11 +15,11 @@ struct SidebarView: View {
                 Spacer()
                 Button(action: {
                     withAnimation {
-                        isSidebarOpen = false
+                        appState.isSidebarOpen = false
                     }
                 }) {
-                    Image(systemName: "xmark")
-                        .font(.title2)
+                    Image("x", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                        .frame(width: 22, height: 22)
                         .foregroundColor(.primary)
                 }
             }
@@ -112,7 +111,8 @@ struct SidebarView: View {
                     
                     HStack {
                         HStack(spacing: 4) {
-                            Image(systemName: "checkmark.circle.fill")
+                            Image("check-circle", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                            .frame(width: 16, height: 16)
                             Text("\(studyData.totalLearnedCount) Learned")
                         }
                         .foregroundColor(AppTheme.statusLearned)
@@ -120,7 +120,8 @@ struct SidebarView: View {
                         Spacer()
                         
                         HStack(spacing: 4) {
-                            Image(systemName: "clock.fill")
+                            Image("clock", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                            .frame(width: 16, height: 16)
                             Text("\(studyData.totalInProgressCount) In-Prog")
                         }
                         .foregroundColor(AppTheme.statusInProgress)
@@ -148,12 +149,13 @@ struct SidebarView: View {
         Button(action: {
             appState.selectedTab = tab
             withAnimation {
-                isSidebarOpen = false
+                appState.isSidebarOpen = false
             }
         }) {
             HStack(spacing: 15) {
-                Image(systemName: tab.emoji)
-                    .font(.title3)
+                Image(tab.iconName, bundle: .module)
+                    .resizable().renderingMode(.template).scaledToFit()
+                    .frame(width: 20, height: 20)
                 Text(tab.rawValue)
                     .font(.headline)
                 Spacer()

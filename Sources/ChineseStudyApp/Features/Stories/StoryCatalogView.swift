@@ -35,6 +35,9 @@ public struct StoryCatalogView: View {
             StoryDetailReaderView(story: story)
         }
         .toolbar {
+            ToolbarItem(placement: .navigation) {
+                SidebarToggleButton()
+            }
             ToolbarItem(placement: .primaryAction) {
                 ThemeToggle()
             }

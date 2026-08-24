@@ -76,10 +76,11 @@ public struct DatabaseBackupView: View {
                     } else if let url = exportURL {
                         ShareLink(item: url) {
                             HStack {
-                                Image(systemName: "arrow.up.doc")
+                                Image("upload-cloud", bundle: .module).resizable().renderingMode(.template).scaledToFit()
+                                .frame(width: 20, height: 20)
                                 Text("Share Backup File")
                             }
-                            .font(.headline)
+                            .frame(width: 17, height: 17)
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(AppTheme.primary)
