@@ -40,16 +40,13 @@ public struct LessonsGridView: View {
 
 private struct LessonChunkView: View {
     let chunk: [LessonInfo]
-    @EnvironmentObject var studyData: StudyDataViewModel
     @State private var isExpanded: Bool = false
 
     var body: some View {
         if let first = chunk.first, let last = chunk.last {
             VStack(alignment: .leading, spacing: 0) {
                 Button {
-                    withAnimation {
-                        isExpanded.toggle()
-                    }
+                    isExpanded.toggle()
                 } label: {
                     HStack {
                         Text("Lessons \(first.lessonNumber) - \(last.lessonNumber)")
@@ -89,7 +86,6 @@ private struct LessonChunkView: View {
             }
             .background(AppTheme.cardBackground)
             .cornerRadius(12)
-            .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
         }
     }
 

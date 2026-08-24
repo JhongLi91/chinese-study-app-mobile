@@ -4,6 +4,7 @@ public struct CharacterInspectorSheet: View {
     let characterText: String
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var studyData: StudyDataViewModel
+    @State private var loadedCharacter: HanziCharacter?
 
     public init(characterText: String) {
         self.characterText = characterText
@@ -12,7 +13,7 @@ public struct CharacterInspectorSheet: View {
     public var body: some View {
         NavigationStack {
             VStack {
-                if let char = ProgressRepository.shared.getCharacter(glyph: characterText) {
+                if let char = loadedCharacter {
                     VStack(spacing: 24) {
                         Text(char.character)
                             .font(.system(size: 80, weight: .bold))
@@ -50,12 +51,15 @@ public struct CharacterInspectorSheet: View {
                         HStack(spacing: 16) {
                             StatusButton(title: "New", icon: "sparkles", color: AppTheme.statusNew, isSelected: char.status == .new) {
                                 studyData.updateStatus(for: char, to: .new)
+                                loadedCharacter?.status = .new
                             }
                             StatusButton(title: "Review", icon: "clock.arrow.circlepath", color: AppTheme.statusInProgress, isSelected: char.status == .inProgress) {
                                 studyData.updateStatus(for: char, to: .inProgress)
+                                loadedCharacter?.status = .inProgress
                             }
                             StatusButton(title: "Learned", icon: "checkmark.circle.fill", color: AppTheme.statusLearned, isSelected: char.status == .learned) {
                                 studyData.updateStatus(for: char, to: .learned)
+                                loadedCharacter?.status = .learned
                             }
                         }
                         .padding(.top)
@@ -85,6 +89,9 @@ public struct CharacterInspectorSheet: View {
                         dismiss()
                     }
                 }
+            }
+            .task {
+                loadedCharacter = ProgressRepository.shared.getCharacter(glyph: characterText)
             }
         }
     }

@@ -2,7 +2,7 @@ import SwiftUI
 
 public struct StoryDetailReaderView: View {
     public let story: Story
-    @StateObject private var storyViewModel = StoryViewModel.shared
+    @ObservedObject private var storyViewModel = StoryViewModel.shared
     @State private var inspectedCharacter: String?
 
     public init(story: Story) {
@@ -24,8 +24,12 @@ public struct StoryDetailReaderView: View {
                                 sentence: sentence,
                                 index: index,
                                 isActive: storyViewModel.activeSentenceIndex == index,
+                                pinyinMode: storyViewModel.pinyinMode,
                                 onCharacterTap: { char in
                                     inspectedCharacter = char
+                                },
+                                onSentenceTap: {
+                                    storyViewModel.playSentenceAudio(sentence: sentence, index: index)
                                 }
                             )
                         }
@@ -110,6 +114,6 @@ extension Binding where Value == String? {
 }
 
 struct StringWrapper: Identifiable {
-    let id = UUID()
+    var id: String { value }
     let value: String
 }

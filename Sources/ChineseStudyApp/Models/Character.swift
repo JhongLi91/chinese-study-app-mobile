@@ -88,6 +88,7 @@ public struct HanziCharacter: Identifiable, Codable, Hashable, Sendable {
         self.status = status
         self.updatedAt = updatedAt
         self.wordAssociations = wordAssociations
+        self.cleanDefinition = definition.components(separatedBy: ";").first?.components(separatedBy: ",").first?.trimmingCharacters(in: .whitespacesAndNewlines) ?? definition
     }
 
     /// Determines Mandarin tone number (1-5) from pinyin for visual styling.
@@ -113,10 +114,7 @@ public struct HanziCharacter: Identifiable, Codable, Hashable, Sendable {
         return 5
     }
 
-    /// Primary clean single-line English gloss
-    public var cleanDefinition: String {
-        definition.components(separatedBy: ";").first?.components(separatedBy: ",").first?.trimmingCharacters(in: .whitespacesAndNewlines) ?? definition
-    }
+    public let cleanDefinition: String
 }
 
 public typealias Character = HanziCharacter

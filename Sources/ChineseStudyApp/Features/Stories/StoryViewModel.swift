@@ -52,6 +52,7 @@ public final class StoryViewModel: ObservableObject {
     }
 
     public func loadStories() {
+        guard stories.isEmpty else { return }
         self.stories = repository.getStories()
         if selectedStory == nil, let first = stories.first {
             selectStory(first)

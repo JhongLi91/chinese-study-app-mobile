@@ -2,7 +2,7 @@ import SwiftUI
 
 public struct StoryQuizView: View {
     public let story: Story
-    @StateObject private var storyViewModel = StoryViewModel.shared
+    @ObservedObject private var storyViewModel = StoryViewModel.shared
     @Environment(\.dismiss) var dismiss
 
     public init(story: Story) {

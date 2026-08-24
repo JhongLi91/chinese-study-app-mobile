@@ -2,7 +2,6 @@ import SwiftUI
 
 public struct CharacterDetailView: View {
     let character: HanziCharacter
-    @EnvironmentObject var studyData: StudyDataViewModel
 
     public init(character: HanziCharacter) {
         self.character = character

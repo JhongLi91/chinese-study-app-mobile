@@ -4,15 +4,17 @@ public struct SentenceView: View {
     let sentence: StorySentence
     let index: Int
     let isActive: Bool
+    let pinyinMode: PinyinMode
     let onCharacterTap: (String) -> Void
-    
-    @StateObject private var storyViewModel = StoryViewModel.shared
+    let onSentenceTap: () -> Void
 
-    public init(sentence: StorySentence, index: Int, isActive: Bool, onCharacterTap: @escaping (String) -> Void) {
+    public init(sentence: StorySentence, index: Int, isActive: Bool, pinyinMode: PinyinMode, onCharacterTap: @escaping (String) -> Void, onSentenceTap: @escaping () -> Void) {
         self.sentence = sentence
         self.index = index
         self.isActive = isActive
+        self.pinyinMode = pinyinMode
         self.onCharacterTap = onCharacterTap
+        self.onSentenceTap = onSentenceTap
     }
 
     public var body: some View {
@@ -26,7 +28,7 @@ public struct SentenceView: View {
                     
                     ForEach(0..<chars.count, id: \.self) { i in
                         VStack(spacing: 2) {
-                            if storyViewModel.pinyinMode == .ruby {
+                            if pinyinMode == .ruby {
                                 Text(i < pinyins.count ? pinyins[i] : " ")
                                     .font(.system(size: 10))
                                     .foregroundColor(AppTheme.textSecondary)
@@ -43,7 +45,7 @@ public struct SentenceView: View {
                 }
             }
             
-            if storyViewModel.pinyinMode == .inline {
+            if pinyinMode == .inline {
                 Text(sentence.py)
                     .font(.subheadline)
                     .foregroundColor(AppTheme.textSecondary)
@@ -53,7 +55,7 @@ public struct SentenceView: View {
         .background(isActive ? AppTheme.statusInProgress.opacity(0.1) : Color.clear)
         .cornerRadius(8)
         .onTapGesture {
-            storyViewModel.playSentenceAudio(sentence: sentence, index: index)
+            onSentenceTap()
         }
     }
 }

@@ -178,3 +178,34 @@ This document tracks key technical decisions, architectural choices, and resolut
   3. **Direct Navigation:** Updated `LessonsGridView` to use a `NavigationLink` to push the `FlashcardStudyView` directly onto the `NavigationStack`.
   4. **Correct Lesson Loading:** Added an `.onAppear` modifier to `FlashcardStudyView` (via the NavigationLink) to correctly call `StudyDataViewModel.shared.loadLesson(lessonNumber:)` for the specific lesson selected.
 * **Rationale:** Resolves the main thread blocking issue caused by eager layout evaluation in SwiftUI (`VStack` -> `LazyVStack`). Simplifies the UX by removing an unnecessary top-level tab and fixes the state bug where the view was not loading the requested lesson data.
+
+---
+
+## ADR-012: Full Codebase Performance Audit Fixes
+
+* **Date:** 2026-08-23
+* **Status:** Accepted
+* **Context:** A comprehensive performance audit identified 11 issues across the codebase, including eager NavigationLink instantiations, @StateObject cascade redraws, synchronous DB queries in view bodies, and main-thread blocking database operations.
+* **Decision:** Implemented fixes for all 11 issues:
+  1. Converted `NavigationLink` eager instantiations to `NavigationLink(value:)` + `.navigationDestination` in `StoryCatalogView` and `StoryDetailReaderView`.
+  2. Downgraded `@StateObject private var storyViewModel = StoryViewModel.shared` to `@ObservedObject` across all Story views.
+  3. Rewrote `SentenceView` to accept simple value types instead of directly observing the massive `StoryViewModel`.
+  4. Moved the synchronous database query in `CharacterInspectorSheet.body` into a `.task {}` modifier.
+  5. Offloaded all batch DB updates (`batchMarkLearned`, `resetLessonProgress`, `resetAllProgress`) in `StudyDataViewModel` to background threads (`Task.detached`), applying immediate in-memory state updates to prevent blocking the main thread.
+  6. Added a custom string-based `id` to `StringWrapper` in `StoryDetailReaderView` to prevent UUID-driven sheet instability.
+  7. Placed equality guards in `StudyDataViewModel` filter `didSet` blocks to prevent redundant array processing.
+  8. Removed an unused `@EnvironmentObject` in `CharacterDetailView`.
+  9. Cached `cleanDefinition` in `HanziCharacter` as a stored property evaluated at init.
+  10. Added early returns in `StoryViewModel.loadStories()`.
+  11. Added a `LIMIT 100` and an index on `created_at` for `study_sessions`.
+* **Rationale:** Resolves systemic lag and UI blocking issues caused by main-thread blocking operations and unnecessary SwiftUI re-evaluations.
+
+---
+
+## ADR-013: Android Compose Accordion Animation Thrashing Fix
+
+* **Date:** 2026-08-23
+* **Status:** Accepted
+* **Context:** The `LessonsGridView` used an accordion design to chunk the 120 lessons. When expanding a group of 10 lessons, the `isExpanded.toggle()` was wrapped in `withAnimation`. On Android (via Skip / Jetpack Compose), animating the bounds and layout height of a container inserting 10 complex nested cards (each with shadows, multiple text views, and `CircularProgressView` shapes) caused severe layout thrashing and scrolling jank. 
+* **Decision:** Removed the `withAnimation` modifier from the expansion toggle in `LessonsGridView.swift` and removed an unused `@EnvironmentObject var studyData` dependency from the chunk view.
+* **Rationale:** By allowing the dropdown to instantly snap open, we bypass the heavy frame-by-frame measurement and redrawing of all internal cards during expansion. This completely eliminates the dropped frames and jank on Android devices.

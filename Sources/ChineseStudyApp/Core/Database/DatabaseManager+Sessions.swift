@@ -31,7 +31,7 @@ extension DatabaseManager {
         defer { lock.unlock() }
         guard let ctx = context else { return [] }
 
-        let sql = "SELECT id, session_type, start_time, duration_seconds, cards_reviewed, created_at FROM study_sessions ORDER BY created_at DESC"
+        let sql = "SELECT id, session_type, start_time, duration_seconds, cards_reviewed, created_at FROM study_sessions ORDER BY created_at DESC LIMIT 100"
         let rows: [[SQLValue]] = (try? ctx.selectAll(sql: sql)) ?? []
         var results: [StudySession] = []
 

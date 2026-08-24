@@ -1,15 +1,13 @@
 import SwiftUI
 
 public struct StoryCatalogView: View {
-    @StateObject private var storyViewModel = StoryViewModel.shared
+    @ObservedObject private var storyViewModel = StoryViewModel.shared
 
     public init() {}
 
     public var body: some View {
         List(storyViewModel.stories) { story in
-            NavigationLink {
-                StoryDetailReaderView(story: story)
-            } label: {
+            NavigationLink(value: story) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(story.titleZh)
                         .font(.title2.bold())
@@ -33,8 +31,8 @@ public struct StoryCatalogView: View {
         }
         .listStyle(.plain)
         .background(AppTheme.surfaceBackground)
-        .onAppear {
-            storyViewModel.loadStories()
+        .navigationDestination(for: Story.self) { story in
+            StoryDetailReaderView(story: story)
         }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {

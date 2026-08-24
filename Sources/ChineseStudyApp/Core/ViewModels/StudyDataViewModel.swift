@@ -24,13 +24,13 @@ public final class StudyDataViewModel: ObservableObject {
         didSet { recomputeFilteredCharacters() }
     }
     @Published public var selectedFilterStatus: StudyStatus? = nil {
-        didSet { recomputeFilteredCharacters() }
+        didSet { guard selectedFilterStatus != oldValue else { return }; recomputeFilteredCharacters() }
     }
     @Published public var selectedHskFilter: Int? = nil {
-        didSet { recomputeFilteredCharacters() }
+        didSet { guard selectedHskFilter != oldValue else { return }; recomputeFilteredCharacters() }
     }
     @Published public var selectedLessonFilter: Int? = nil {
-        didSet { recomputeFilteredCharacters() }
+        didSet { guard selectedLessonFilter != oldValue else { return }; recomputeFilteredCharacters() }
     }
 
     // Cached filtered results & aggregate stats
@@ -221,18 +221,52 @@ public final class StudyDataViewModel: ObservableObject {
     }
 
     public func batchMarkLearned(ranks: [Int]) {
-        repository.batchUpdateStatus(for: ranks, to: .learned)
-        loadData()
+        let repo = self.repository
+        Task.detached(priority: .utility) {
+            repo.batchUpdateStatus(for: ranks, to: .learned)
+        }
+        let rankSet = Set(ranks)
+        for i in _allCharacters.indices where rankSet.contains(_allCharacters[i].frequencyRank) {
+            _allCharacters[i].status = .learned
+        }
+        for i in currentLessonCharacters.indices where rankSet.contains(currentLessonCharacters[i].frequencyRank) {
+            currentLessonCharacters[i].status = .learned
+        }
+        recomputeStats()
+        recomputeFilteredCharacters()
+        refreshLessonStatsFromMemory()
     }
 
     public func resetLessonProgress(lessonNumber: Int) {
-        repository.resetLesson(lessonNumber: lessonNumber)
-        loadData()
+        let repo = self.repository
+        Task.detached(priority: .utility) {
+            repo.resetLesson(lessonNumber: lessonNumber)
+        }
+        for i in _allCharacters.indices where _allCharacters[i].lessonNumber == lessonNumber {
+            _allCharacters[i].status = .new
+        }
+        for i in currentLessonCharacters.indices where currentLessonCharacters[i].lessonNumber == lessonNumber {
+            currentLessonCharacters[i].status = .new
+        }
+        recomputeStats()
+        recomputeFilteredCharacters()
+        refreshLessonStatsFromMemory()
     }
 
     public func resetAllProgress() {
-        repository.resetAll()
-        loadData()
+        let repo = self.repository
+        Task.detached(priority: .utility) {
+            repo.resetAll()
+        }
+        for i in _allCharacters.indices {
+            _allCharacters[i].status = .new
+        }
+        for i in currentLessonCharacters.indices {
+            currentLessonCharacters[i].status = .new
+        }
+        recomputeStats()
+        recomputeFilteredCharacters()
+        refreshLessonStatsFromMemory()
     }
 
     /// Recompute lesson stats from the in-memory character array instead of querying DB.

@@ -119,6 +119,7 @@ public final class DatabaseManager: @unchecked Sendable {
         try? ctx.exec(sql: "CREATE INDEX IF NOT EXISTS idx_progress_status ON progress(status);")
         try? ctx.exec(sql: "CREATE INDEX IF NOT EXISTS idx_word_assoc_char_id ON word_associations(character_id);")
         try? ctx.exec(sql: "CREATE INDEX IF NOT EXISTS idx_word_assoc_word ON word_associations(word);")
+        try? ctx.exec(sql: "CREATE INDEX IF NOT EXISTS idx_sessions_created_at ON study_sessions(created_at);")
     }
 
 

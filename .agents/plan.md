@@ -213,3 +213,10 @@ Each task is structured as a self-contained work package designed for direct ass
   * **Acceptance Criteria:** `skip build --android` succeeds without transpilation errors.
   * **Delegation Target:** Android / Multiplatform Agent.
 
+
+- [x] **TASK-511: Full Codebase Performance Optimizations**
+  * **Objective:** Address 11 high/medium performance issues discovered during a comprehensive SwiftUI audit.
+  * **Key Deliverables:** Fixed eager navigation links, eliminated @StateObject singleton anti-patterns, moved DB queries off main thread, and removed redundant evaluations.
+  * **Dependencies:** None.
+  * **Acceptance Criteria:** `swift build` and `skip build` succeed. Views no longer block the main thread.
+  * **Delegation Target:** Performance Agent.
