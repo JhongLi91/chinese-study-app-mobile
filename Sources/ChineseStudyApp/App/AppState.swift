@@ -12,20 +12,18 @@ public enum AppTab: String, CaseIterable, Identifiable, Sendable {
     case stories = "Story Reader"
     case match = "Word Match"
     case settings = "Settings"
-    case flashcards = "Flashcards"
 
     public var id: String { rawValue }
 
     public var emoji: String {
         switch self {
         case .lessons: return "book"
-        case .learned: return "checkmark.circle"
-        case .inProgress: return "clock"
-        case .allHanzi: return "square.stack.3d.up"
-        case .stories: return "text.book.closed"
-        case .match: return "bolt"
-        case .settings: return "gearshape"
-        case .flashcards: return "folder"
+        case .learned: return "checkmark.circle.fill"
+        case .inProgress: return "clock.fill"
+        case .allHanzi: return "list.bullet"
+        case .stories: return "book.closed.fill"
+        case .match: return "gamecontroller.fill"
+        case .settings: return "gear"
         }
     }
     
@@ -63,8 +61,4 @@ public final class AppState: ObservableObject {
         }
     }
 
-    public func navigateToLessonFlashcards(lessonNumber: Int) {
-        self.activeLessonNumber = lessonNumber
-        self.selectedTab = .flashcards
-    }
 }

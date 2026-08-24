@@ -37,7 +37,7 @@ public struct StoryCatalogView: View {
             storyViewModel.loadStories()
         }
         .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
+            ToolbarItem(placement: .primaryAction) {
                 ThemeToggle()
             }
         }

@@ -44,19 +44,19 @@ public struct MainTabView: View {
                         .navigationTitle(AppTab.lessons.rawValue)
                 case .learned:
                     DictionarySearchView()
+                        .id(AppTab.learned.rawValue)
                         .navigationTitle(AppTab.learned.rawValue)
                         .onAppear { StudyDataViewModel.shared.selectedFilterStatus = .learned }
                 case .inProgress:
                     DictionarySearchView()
+                        .id(AppTab.inProgress.rawValue)
                         .navigationTitle(AppTab.inProgress.rawValue)
                         .onAppear { StudyDataViewModel.shared.selectedFilterStatus = .inProgress }
                 case .allHanzi:
                     DictionarySearchView()
+                        .id(AppTab.allHanzi.rawValue)
                         .navigationTitle(AppTab.allHanzi.rawValue)
                         .onAppear { StudyDataViewModel.shared.selectedFilterStatus = nil }
-                case .flashcards:
-                    FlashcardStudyView()
-                        .navigationTitle("Review")
                 case .stories:
                     StoryCatalogView()
                         .navigationTitle(AppTab.stories.rawValue)

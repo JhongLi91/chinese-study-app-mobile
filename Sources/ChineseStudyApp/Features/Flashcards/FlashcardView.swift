@@ -50,62 +50,74 @@ public struct FlashcardView: View {
     }
 
     private var backView: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: 20) {
             HStack {
+                Text(character.character)
+                    .font(.system(size: 44, weight: .bold))
+                    .foregroundColor(AppTheme.textSecondary)
                 Spacer()
-                // You can add play button or icon here
-            }
-            .padding()
-
-            VStack(spacing: 8) {
-                Text(character.pinyin)
-                    .font(.largeTitle.bold())
-    
-                
-                Text(character.definition)
+                Image(systemName: "speaker.wave.2.fill")
+                    .foregroundColor(AppTheme.primary)
                     .font(.title2)
+            }
+            .padding(.horizontal, 24)
+            .padding(.top, 24)
+
+            Spacer()
+
+            VStack(spacing: 16) {
+                Text(character.pinyin)
+                    .font(.system(size: 48, weight: .bold, design: .rounded))
+                    .foregroundColor(AppTheme.primary)
+    
+                Text(character.definition)
+                    .font(.title3)
                     .foregroundColor(AppTheme.textPrimary)
                     .multilineTextAlignment(.center)
+                    .padding(.horizontal, 24)
             }
 
-            Divider().background(AppTheme.cardBorder)
+            Spacer()
 
-            HStack(spacing: 24) {
-                if let radical = character.radical {
-                    VStack {
+            Divider()
+                .background(AppTheme.cardBorder)
+                .padding(.horizontal, 24)
+
+            HStack(spacing: 36) {
+                if let radical = character.radical, !radical.isEmpty {
+                    VStack(spacing: 4) {
                         Text("Radical")
                             .font(.caption)
                             .foregroundColor(AppTheme.textSecondary)
                         Text(radical)
-                            .font(.title3.bold())
+                            .font(.headline)
                             .foregroundColor(AppTheme.textPrimary)
                     }
                 }
 
                 if let strokes = character.strokeCount {
-                    VStack {
+                    VStack(spacing: 4) {
                         Text("Strokes")
                             .font(.caption)
                             .foregroundColor(AppTheme.textSecondary)
                         Text("\(strokes)")
-                            .font(.title3.bold())
+                            .font(.headline)
                             .foregroundColor(AppTheme.textPrimary)
                     }
                 }
                 
                 if let hsk = character.hskLevel {
-                    VStack {
+                    VStack(spacing: 4) {
                         Text("HSK")
                             .font(.caption)
                             .foregroundColor(AppTheme.textSecondary)
                         Text("\(hsk)")
-                            .font(.title3.bold())
+                            .font(.headline)
                             .foregroundColor(AppTheme.textPrimary)
                     }
                 }
             }
-
-            Spacer()
+            .padding(.bottom, 24)
         }
         .rotation3DEffect(.degrees(180.0), axis: (x: 0.0, y: 1.0, z: 0.0))
     }

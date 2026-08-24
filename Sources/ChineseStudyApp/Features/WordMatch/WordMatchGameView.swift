@@ -161,7 +161,7 @@ public struct WordMatchGameView: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
+            ToolbarItem(placement: .primaryAction) {
                 ThemeToggle()
             }
         }

@@ -52,7 +52,7 @@ public struct FlashcardStudyView: View {
                     Button {
                         showExampleSheet = true
                     } label: {
-                        Image(systemName: "text.alignleft")
+                        Image(systemName: "doc.text")
                             .font(.system(size: 20, weight: .bold))
                             .foregroundColor(AppTheme.textPrimary)
                             .frame(width: 56, height: 56)
@@ -81,7 +81,7 @@ public struct FlashcardStudyView: View {
 
             } else {
                 VStack(spacing: 16) {
-                    Image(systemName: "sparkles")
+                    Image(systemName: "star.fill")
                         .font(.system(size: 64))
                         .foregroundColor(AppTheme.statusLearned)
                     Text("Lesson Complete!")
@@ -101,7 +101,7 @@ public struct FlashcardStudyView: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
+            ToolbarItem(placement: .primaryAction) {
                 ThemeToggle()
             }
         }

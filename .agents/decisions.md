@@ -165,3 +165,16 @@ This document tracks key technical decisions, architectural choices, and resolut
 * **Context:** The AI agent executing tasks reached Phase 6 (Android Device Testing & UX) and Phase 7 (APK Build & Device Deployment). The host environment lacked Xcode (required by Skip.tools for compilation) and the AI cannot perform physical hardware verification (gestures, haptics, TTS).
 * **Decision:** Mark Tasks 602, 701, 702, and 703 as blocked. The user will handle the local environment setup (installing Xcode and ADB) and will manually run the QA tests.
 * **Consequences:** The AI will wait for bug reports or further instructions from the user regarding the outcome of the physical testing.
+---
+
+## ADR-011: Tab Navigation Performance & UI Simplification
+
+* **Date:** 2026-08-23
+* **Status:** Accepted
+* **Context:** The user reported significant lag when navigating between tabs, particularly the Lessons page. Additionally, navigating to a lesson always loaded the first lesson's flashcards, and the user requested the removal of the standalone "Flashcards" tab since lessons themselves serve as flashcards.
+* **Decision:**
+  1. **Lazy Loading:** Replaced the eager `VStack` in `LessonsGridView` with a `LazyVStack`. This prevents all 120 lesson views from being evaluated simultaneously on the main thread when switching to the tab.
+  2. **Tab Removal:** Removed the `.flashcards` tab from `AppTab` and `AppState`. 
+  3. **Direct Navigation:** Updated `LessonsGridView` to use a `NavigationLink` to push the `FlashcardStudyView` directly onto the `NavigationStack`.
+  4. **Correct Lesson Loading:** Added an `.onAppear` modifier to `FlashcardStudyView` (via the NavigationLink) to correctly call `StudyDataViewModel.shared.loadLesson(lessonNumber:)` for the specific lesson selected.
+* **Rationale:** Resolves the main thread blocking issue caused by eager layout evaluation in SwiftUI (`VStack` -> `LazyVStack`). Simplifies the UX by removing an unnecessary top-level tab and fixes the state bug where the view was not loading the requested lesson data.

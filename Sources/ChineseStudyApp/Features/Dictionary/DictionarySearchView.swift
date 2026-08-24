@@ -5,6 +5,8 @@ public struct DictionarySearchView: View {
     @FocusState private var isSearchFocused: Bool
     @State private var showQuizModal = false
 
+    @State private var displayLimit = 50
+
     public init() {}
 
     public var body: some View {
@@ -37,29 +39,11 @@ public struct DictionarySearchView: View {
                     .stroke(AppTheme.border, lineWidth: 1)
             )
             .padding()
-
-            // Filter Pills handled by Sidebar Navigation now
-            /*
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    FilterPill(title: "All", isSelected: studyData.selectedFilterStatus == nil) {
-                        studyData.selectedFilterStatus = nil
-                    }
-                    
-                    ForEach(StudyStatus.allCases, id: \.self) { status in
-                        FilterPill(title: status.title, isSelected: studyData.selectedFilterStatus == status) {
-                            studyData.selectedFilterStatus = status
-                        }
-                    }
-                }
-                .padding(.horizontal)
-            }
-            .padding(.bottom, 8)
-            */
-
+            
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    ForEach(studyData.filteredCharacters) { char in
+                    let items = Array(studyData.filteredCharacters.prefix(displayLimit))
+                    ForEach(items) { char in
                         NavigationLink(value: char.frequencyRank) {
                             CharacterRowView(character: char)
                                 .padding(.horizontal)
@@ -68,6 +52,15 @@ public struct DictionarySearchView: View {
                         
                         Divider()
                             .padding(.leading, 16)
+                    }
+                    
+                    if studyData.filteredCharacters.count > displayLimit {
+                        Button("Load More") {
+                            displayLimit += 50
+                        }
+                        .padding()
+                        .font(.headline)
+                        .foregroundColor(AppTheme.primary)
                     }
                 }
                 .padding(.bottom, 24)
@@ -81,16 +74,16 @@ public struct DictionarySearchView: View {
         }
         .background(AppTheme.background.ignoresSafeArea())
         .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                ThemeToggle()
-            }
             ToolbarItem(placement: .primaryAction) {
-                Button {
-                    showQuizModal = true
-                } label: {
-                    Image(systemName: "play.circle.fill")
+                HStack(spacing: 16) {
+                    ThemeToggle()
+                    Button {
+                        showQuizModal = true
+                    } label: {
+                        Image(systemName: "play.circle.fill")
+                    }
+                    .disabled(studyData.filteredCharacters.isEmpty)
                 }
-                .disabled(studyData.filteredCharacters.isEmpty)
             }
         }
         .sheet(isPresented: $showQuizModal) {

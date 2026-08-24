@@ -112,7 +112,7 @@ struct SidebarView: View {
                     
                     HStack {
                         HStack(spacing: 4) {
-                            Image(systemName: "checkmark.circle")
+                            Image(systemName: "checkmark.circle.fill")
                             Text("\(studyData.totalLearnedCount) Learned")
                         }
                         .foregroundColor(AppTheme.statusLearned)
@@ -120,7 +120,7 @@ struct SidebarView: View {
                         Spacer()
                         
                         HStack(spacing: 4) {
-                            Image(systemName: "clock")
+                            Image(systemName: "clock.fill")
                             Text("\(studyData.totalInProgressCount) In-Prog")
                         }
                         .foregroundColor(AppTheme.statusInProgress)
